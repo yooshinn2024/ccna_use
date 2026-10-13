@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CCNA Subnet Master v2.2.0 - サブネット計算特訓</title>
+  <title>CCNA Subnet Master v2.3.0 - サブネット計算特訓</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -285,7 +285,11 @@
       border-top: 1px solid var(--card-border);
       padding-top: 1.25rem;
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideDownFade {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .result-badge {
       display: inline-block;
@@ -496,7 +500,7 @@
   <!-- 头部：标题、统计、语言切换 -->
   <header>
     <div class="header-left">
-      <h1>Subnet Master <span class="badge" id="appBadge">CCNA サブネット特訓 v2.2</span></h1>
+      <h1>Subnet Master <span class="badge" id="appBadge">CCNA サブネット特訓 v2.3</span></h1>
     </div>
     <div class="header-right">
       <!-- 语言选择按钮组 (默认日语) -->
@@ -627,7 +631,7 @@
  */
 const I18N = {
   ja: {
-    appBadge: "CCNA サブネット特訓 v2.2",
+    appBadge: "CCNA サブネット特訓 v2.3",
     labelStreak: "連続正解",
     labelTotal: "回答数",
     labelAccuracy: "正答率",
@@ -740,7 +744,7 @@ const I18N = {
   },
 
   en: {
-    appBadge: "CCNA Subnet Drill v2.2",
+    appBadge: "CCNA Subnet Drill v2.3",
     labelStreak: "Streak",
     labelTotal: "Total",
     labelAccuracy: "Accuracy",
@@ -853,7 +857,7 @@ const I18N = {
   },
 
   zh: {
-    appBadge: "CCNA 极速特训 v2.2",
+    appBadge: "CCNA 极速特训 v2.3",
     labelStreak: "连续答对",
     labelTotal: "已练题数",
     labelAccuracy: "正确率",
@@ -1247,9 +1251,10 @@ function loadNewQuestion() {
   document.getElementById('qTypeBadge').textContent = q.badge;
   document.getElementById('qPrompt').innerHTML = q.prompt;
 
-  // 界面状态复位
+  // 界面状态复位 (保证页面稳定不跳动)
   document.getElementById('answerBox').style.display = 'none';
   const inputEl = document.getElementById('answerInput');
+  inputEl.readOnly = false;
   inputEl.value = '';
   inputEl.className = '';
   inputEl.placeholder = t.inputPlaceholder;
@@ -1338,7 +1343,13 @@ function handleAnswer(userVal) {
   document.getElementById('ccnaBreakdown').innerHTML = q.explanation;
   document.getElementById('answerBox').style.display = 'block';
 
-  document.getElementById('nextBtn').focus();
+  // 关键优化：移除聚焦跳动
+  // 防止浏览器自动向下强行滚屏跳动，同时锁住输入框并收起移动端键盘
+  state.answeredAt = Date.now();
+  if (inputEl) {
+    inputEl.readOnly = true;
+    inputEl.blur();
+  }
 }
 
 function updateStatsUI() {
@@ -1567,20 +1578,29 @@ document.getElementById('cheatSheetToggle').addEventListener('click', () => {
 // 键盘快捷键监听
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
+    e.preventDefault();
+    const now = Date.now();
     if (state.answered) {
-      loadNewQuestion();
+      // 设置 350ms 冷却时间，防止单次长按回车直接跳过答案进入下一题
+      if (now - (state.answeredAt || 0) > 350) {
+        loadNewQuestion();
+      }
     } else {
       if (state.currentQuestion && state.currentQuestion.type === 'TEXT') {
+        state.answeredAt = now;
         handleAnswer(document.getElementById('answerInput').value);
       }
     }
   } else if (e.code === 'Space') {
     if (document.activeElement !== document.getElementById('answerInput')) {
       e.preventDefault();
+      const now = Date.now();
       if (!state.answered) {
         handleAnswer(null);
       } else {
-        loadNewQuestion();
+        if (now - (state.answeredAt || 0) > 350) {
+          loadNewQuestion();
+        }
       }
     }
   }
