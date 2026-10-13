@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CCNA Subnet Master v2.1.0 - サブネット計算特訓</title>
-  <!-- Architecture & Engine: Designed by Gemini 3.8 High | Estimated Session Tokens: ~35,200 tokens | Clean Bitwise Calculation -->
+  <title>CCNA Subnet Master v2.2.0 - サブネット計算特訓</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -218,6 +217,7 @@
     }
     input[type="text"] {
       flex: 1;
+      min-width: 0;
       background: var(--bg);
       border: 2px solid var(--card-border);
       border-radius: 8px;
@@ -236,6 +236,7 @@
 
     .btn-primary {
       background: var(--accent);
+      flex-shrink: 0;
       color: #0f172a;
       border: none;
       padding: 0.75rem 1.5rem;
@@ -376,6 +377,113 @@
       margin-top: 0.5rem;
     }
 
+
+    /* 移动端响应式适配 (防横向溢出与布局优化) */
+    @media (max-width: 640px) {
+      body {
+        padding: 0.75rem 0.5rem 2rem;
+      }
+      .container {
+        gap: 0.85rem;
+      }
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+      .header-left {
+        justify-content: space-between;
+      }
+      .header-right {
+        justify-content: space-between;
+        width: 100%;
+        gap: 0.5rem;
+      }
+      .lang-switcher {
+        flex-shrink: 0;
+      }
+      .stats-bar {
+        flex: 1;
+        justify-content: space-around;
+        padding: 0.35rem 0.5rem;
+        gap: 0.5rem;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+        padding: 0.75rem;
+      }
+      .control-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .control-group select {
+        flex: 1;
+        max-width: 200px;
+      }
+      .card {
+        padding: 1.25rem 1rem;
+        gap: 1.25rem;
+        border-radius: 10px;
+      }
+      .q-prompt {
+        font-size: 1.15rem;
+        line-height: 1.5;
+      }
+      /* 手机版输入框与提交按钮垂直排列，完美防止向右溢出 */
+      .input-row {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.65rem;
+      }
+      input[type="text"] {
+        width: 100%;
+        min-width: 0;
+        padding: 0.75rem 0.85rem;
+        font-size: 1.05rem;
+      }
+      .btn-primary {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .btn-reveal {
+        width: 100%;
+        text-align: center;
+        padding: 0.65rem 1rem;
+      }
+      .choice-group {
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .action-row {
+        width: 100%;
+      }
+      .action-row .btn-primary {
+        width: 100%;
+      }
+      .magic-step {
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .step-label {
+        min-width: auto;
+      }
+      .cheat-sheet-content {
+        padding: 0.5rem;
+      }
+      table.cheat-table {
+        font-size: 0.72rem;
+      }
+      table.cheat-table th, table.cheat-table td {
+        padding: 0.35rem 0.2rem;
+      }
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -388,7 +496,7 @@
   <!-- 头部：标题、统计、语言切换 -->
   <header>
     <div class="header-left">
-      <h1>Subnet Master <span class="badge" id="appBadge">CCNA サブネット特訓</span></h1>
+      <h1>Subnet Master <span class="badge" id="appBadge">CCNA サブネット特訓 v2.2</span></h1>
     </div>
     <div class="header-right">
       <!-- 语言选择按钮组 (默认日语) -->
@@ -511,9 +619,6 @@
   <div class="shortcut-hint" id="shortcutHint">
     ショートカット: [Enter] 送信 / 次の問題 | [Space] 答え・解説表示 | CCNA目標回答時間: 1問あたり 15〜25 秒
   </div>
-  <div style="text-align: center; font-size: 0.65rem; color: #475569; opacity: 0.6; margin-top: 1rem; letter-spacing: 0.5px;">
-    v2.1.0 · Designed by Gemini 3.8 High · Est. 35k Tokens
-  </div>
 </div>
 
 <script>
@@ -522,7 +627,7 @@
  */
 const I18N = {
   ja: {
-    appBadge: "CCNA サブネット特訓",
+    appBadge: "CCNA サブネット特訓 v2.2",
     labelStreak: "連続正解",
     labelTotal: "回答数",
     labelAccuracy: "正答率",
@@ -635,7 +740,7 @@ const I18N = {
   },
 
   en: {
-    appBadge: "CCNA Subnet Drill",
+    appBadge: "CCNA Subnet Drill v2.2",
     labelStreak: "Streak",
     labelTotal: "Total",
     labelAccuracy: "Accuracy",
@@ -748,7 +853,7 @@ const I18N = {
   },
 
   zh: {
-    appBadge: "CCNA 极速特训",
+    appBadge: "CCNA 极速特训 v2.2",
     labelStreak: "连续答对",
     labelTotal: "已练题数",
     labelAccuracy: "正确率",
@@ -943,6 +1048,7 @@ const state = {
   answered: false,
   timerInterval: null,
   startTime: null,
+  lastResult: null,
   stats: {
     total: 0,
     correct: 0,
@@ -1199,6 +1305,12 @@ function handleAnswer(userVal) {
   const q = state.currentQuestion;
   const isCorrect = userVal && userVal.trim().toUpperCase() === q.answer.trim().toUpperCase();
 
+  state.lastResult = {
+    isRevealed: userVal === null,
+    isCorrect: isCorrect,
+    userVal: userVal
+  };
+
   state.stats.total++;
   if (isCorrect) {
     state.stats.correct++;
@@ -1261,6 +1373,47 @@ function updateLanguageUI() {
   document.getElementById('cheatSheetTip').innerHTML = t.cheatTip;
   document.getElementById('shortcutHint').textContent = t.shortcutHint;
   document.getElementById('targetAnswerLabel').textContent = t.targetAnswerLabel;
+
+  // 修复：同步速查表折叠按钮箭头状态文本 (展开/收起)
+  const cheatContent = document.getElementById('cheatSheetContent');
+  const isCheatOpen = cheatContent && cheatContent.style.display === 'block';
+  const cheatArrow = document.getElementById('cheatArrow');
+  if (cheatArrow) {
+    cheatArrow.textContent = isCheatOpen ? t.cheatClose : t.cheatOpen;
+  }
+
+  // 同步输入框占位符
+  const inputEl = document.getElementById('answerInput');
+  if (inputEl) {
+    inputEl.placeholder = t.inputPlaceholder;
+  }
+
+  // 同步揭晓按钮文本
+  const mode = document.getElementById('modeSelect').value;
+  const revealBtn = document.getElementById('revealBtn');
+  if (revealBtn) {
+    revealBtn.textContent = (mode === 'FLASHCARD') ? t.revealBtnFlashcard : t.revealBtnPractice;
+  }
+
+  // 同步已揭晓/判定的结果状态徽章
+  if (state.answered && state.lastResult) {
+    const resultStatus = document.getElementById('resultStatus');
+    if (resultStatus) {
+      if (state.lastResult.isRevealed) {
+        resultStatus.innerHTML = `<span class="result-badge" style="background:#475569; color:#f8fafc;">${t.resRevealed}</span>`;
+      } else if (state.lastResult.isCorrect) {
+        resultStatus.innerHTML = `<span class="result-badge result-correct">${t.resCorrect}</span>`;
+      } else {
+        resultStatus.innerHTML = `<span class="result-badge result-wrong">${t.resWrong.replace('{val}', escapeHtml(state.lastResult.userVal))}</span>`;
+      }
+    }
+  }
+
+  // 同步计时器关闭时的显示文本
+  if (!state.timerEnabled) {
+    const timerVal = document.getElementById('timerVal');
+    if (timerVal) timerVal.textContent = t.timerDisplayOff;
+  }
 
   // 动态渲染速查表表头与内容行
   const headEl = document.getElementById('cheatTableHead');
