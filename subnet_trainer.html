@@ -498,24 +498,9 @@
     <div class="cheat-sheet-content" id="cheatSheetContent">
       <table class="cheat-table">
         <thead>
-          <tr id="cheatTableHead">
-            <th>CIDR (第4オクテット)</th>
-            <th>サブネットマスク (10進)</th>
-            <th>借用ビット数</th>
-            <th>マジックナンバー (ブロックサイズ 256-マスク)</th>
-            <th>有効ホスト数 (2^H - 2)</th>
-          </tr>
+          <tr id="cheatTableHead"></tr>
         </thead>
-        <tbody>
-          <tr><td>/25</td><td>.128</td><td>1 ビット</td><td><strong>128</strong></td><td>126</td></tr>
-          <tr><td>/26</td><td>.192</td><td>2 ビット</td><td><strong>64</strong></td><td>62</td></tr>
-          <tr><td>/27</td><td>.224</td><td>3 ビット</td><td><strong>32</strong></td><td>30</td></tr>
-          <tr><td>/28</td><td>.240</td><td>4 ビット</td><td><strong>16</strong></td><td>14</td></tr>
-          <tr><td>/29</td><td>.248</td><td>5 ビット</td><td><strong>8</strong></td><td>6</td></tr>
-          <tr><td>/30</td><td>.252</td><td>6 ビット</td><td><strong>4</strong></td><td>2 (ポイントツーポイント接続)</td></tr>
-          <tr><td>/31</td><td>.254</td><td>7 ビット</td><td><strong>2</strong></td><td>2 (RFC 3021 ルータ間接続)</td></tr>
-          <tr><td>/32</td><td>.255</td><td>8 ビット</td><td><strong>1</strong></td><td>1 (Host ルート / Loopback)</td></tr>
-        </tbody>
+        <tbody id="cheatTableBody"></tbody>
       </table>
       <div id="cheatSheetTip" style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;">
         <!-- 动态语言填充 -->
@@ -582,12 +567,40 @@ const I18N = {
     cheatOpen: "▼ クリックして展開",
     cheatClose: "▲ クリックして閉じる",
     cheatHeadCols: ["CIDR (第4オクテット)", "サブネットマスク (10進)", "借用ビット数", "マジックナンバー (ブロックサイズ 256-マスク)", "有効ホスト数 (2^H - 2)"],
+    cheatRows: [
+      ["/25", ".128", "1 ビット", "128", "126"],
+      ["/26", ".192", "2 ビット", "64", "62"],
+      ["/27", ".224", "3 ビット", "32", "30"],
+      ["/28", ".240", "4 ビット", "16", "14"],
+      ["/29", ".248", "5 ビット", "8", "6"],
+      ["/30", ".252", "6 ビット", "4", "2 (ポイントツーポイント接続)"],
+      ["/31", ".254", "7 ビット", "2", "2 (RFC 3021 ルータ間接続)"],
+      ["/32", ".255", "8 ビット", "1", "1 (Host ルート / Loopback)"]
+    ],
     cheatTip: `💡 <strong>CCNA 暗算テクニック (Magic Number Method)：</strong><br>
 1. <strong>着目オクテット (Interesting Octet) を特定</strong>：/16〜/23 は第3オクテット、/24〜/30 は第4オクテット。<br>
 2. マジックナンバー ＝ <code>256 － 対象オクテットのマスク値</code>（各サブネットの増分幅 / ブロックサイズ）。<br>
 3. ネットワークアドレスは必ずマジックナンバーの倍数（0, 幅, 幅×2...）。対象IP以下の最大倍数が該当ネットワークアドレスです！`,
     shortcutHint: "ショートカット: [Enter] 送信 / 次の問題 | [Space] 答え・解説表示 | CCNA目標回答時間: 1問あたり 15〜25 秒",
     octets: ["第 1 オクテット", "第 2 オクテット", "第 3 オクテット", "第 4 オクテット"],
+    stepLabels: {
+      boundary: "1. オクテット境界:",
+      netHost: "2. ネットワーク/ホスト部:",
+      range: "3. サブネット範囲:",
+      result: "4. 結論:",
+      interestingOctet: "1. 着目オクテット:",
+      magicNumber: "2. マジックナンバー (歩長):",
+      multiples: "3. 所属区間の特定:",
+      fullRange: "4. サブネット全範囲:",
+      magicResult: "5. 結論:",
+      hostBits: "ホスト部ビット数 (H):",
+      formula: "計算式:",
+      cidrPrefix: "CIDR プレフィックス:",
+      maskDec: "サブネットマスク:",
+      hostA: "ホスト A のサブネット:",
+      hostB: "ホスト B のサブネット:",
+      sameResult: "判定結果:"
+    },
     questions: {
       NET_ID: (ip, prefix) => `IP アドレス <span class="highlight-ip">${ip}/${prefix}</span> が属するサブネットの<strong>ネットワークアドレス</strong>は何ですか？`,
       BROADCAST: (net, prefix) => `サブネット <span class="highlight-ip">${net}/${prefix}</span> の<strong>ブロードキャストアドレス</strong>は何ですか？`,
@@ -605,7 +618,7 @@ const I18N = {
         firstHost: (fh) => `最初の有効ホスト ＝ ネットワークアドレス ＋ 1：<strong>${fh}</strong>`,
         lastHost: (lh) => `最後の有効ホスト ＝ ブロードキャストアドレス － 1：<strong>${lh}</strong>`
       },
-      boundaryStep1: (prefix, mask) => `前缀 /${prefix}（マスク <code>${mask}</code>）はオクテット境界に一致するため、借用計算は不要です。`,
+      boundaryStep1: (prefix, mask) => `プレフィックス /${prefix}（マスク <code>${mask}</code>）はオクテット境界に一致するため、借用計算は不要です。`,
       boundaryStep2: (octCount) => `上位 ${octCount} オクテットがネットワーク部（固定）、以降がすべてホスト部です。`,
       boundaryStep3: (net, bc) => `ホスト部オール0がネットワークアドレス <strong>${net}</strong>、ホスト部オール255がブロードキャストアドレス <strong>${bc}</strong>。`,
       magicStep1: (mask, octName, maskVal) => `マスクは <code>${mask}</code> で、変化位置は <strong>${octName}</strong> (マスク値: <code>${maskVal}</code>)`,
@@ -614,8 +627,8 @@ const I18N = {
       magicStep4: (net, bc) => `<strong>${net}</strong> 〜 <strong>${bc}</strong>`,
       validHostsH: (prefix, h) => `32 - ${prefix} = <strong>${h} ビット</strong>`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> (ネットワークアドレスとブロードキャストアドレスを除く)`,
-      sameSubnetHostA: (net, prefix, bc) => `ホスト A のサブネット: <strong>${net}/${prefix}</strong> (ブロードキャスト: ${bc})`,
-      sameSubnetHostB: (net, prefix, bc) => `ホスト B のサブネット: <strong>${net}/${prefix}</strong> (ブロードキャスト: ${bc})`,
+      sameSubnetHostA: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (ブロードキャスト: ${bc})`,
+      sameSubnetHostB: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (ブロードキャスト: ${bc})`,
       sameSubnetYes: "ネットワークアドレスが一致し、同一ブロードキャストドメインに属するため、<strong>直接通信可能 (YES)</strong>",
       sameSubnetNo: "異なるサブネットに属するため、<strong>デフォルトゲートウェイによるルーティングが必須 (NO)</strong>"
     }
@@ -667,12 +680,40 @@ const I18N = {
     cheatOpen: "▼ Click to expand",
     cheatClose: "▲ Click to collapse",
     cheatHeadCols: ["CIDR (4th Octet)", "Subnet Mask (Dotted)", "Borrowed Bits", "Magic Number (Block Size 256-Mask)", "Usable Hosts (2^H - 2)"],
+    cheatRows: [
+      ["/25", ".128", "1 bit", "128", "126"],
+      ["/26", ".192", "2 bits", "64", "62"],
+      ["/27", ".224", "3 bits", "32", "30"],
+      ["/28", ".240", "4 bits", "16", "14"],
+      ["/29", ".248", "5 bits", "8", "6"],
+      ["/30", ".252", "6 bits", "4", "2 (Point-to-Point WAN)"],
+      ["/31", ".254", "7 bits", "2", "2 (RFC 3021 Router Links)"],
+      ["/32", ".255", "8 bits", "1", "1 (Host Route / Loopback)"]
+    ],
     cheatTip: `💡 <strong>CCNA Mental Math (Magic Number Method):</strong><br>
 1. <strong>Identify Interesting Octet</strong>: /16~/23 is in 3rd octet; /24~/30 is in 4th octet.<br>
 2. Magic Number = <code>256 - Mask Octet Value</code> (Subnet Block Size).<br>
 3. The Network Address is always a multiple of the Magic Number (0, Block, Block×2...). Find the largest multiple <= IP!`,
     shortcutHint: "Shortcuts: [Enter] Submit / Next Question | [Space] Reveal Answer | CCNA Goal: 15-25s per question",
     octets: ["1st Octet", "2nd Octet", "3rd Octet", "4th Octet"],
+    stepLabels: {
+      boundary: "1. Octet Boundary:",
+      netHost: "2. Net / Host Division:",
+      range: "3. Subnet Range:",
+      result: "4. Result:",
+      interestingOctet: "1. Interesting Octet:",
+      magicNumber: "2. Magic Number (Block):",
+      multiples: "3. Locate Interval:",
+      fullRange: "4. Subnet Range:",
+      magicResult: "5. Result:",
+      hostBits: "Host Bits (H):",
+      formula: "Formula:",
+      cidrPrefix: "CIDR Prefix:",
+      maskDec: "Subnet Mask:",
+      hostA: "Host A Subnet:",
+      hostB: "Host B Subnet:",
+      sameResult: "Determination:"
+    },
     questions: {
       NET_ID: (ip, prefix) => `What is the <strong>network address</strong> of the subnet containing <span class="highlight-ip">${ip}/${prefix}</span>?`,
       BROADCAST: (net, prefix) => `What is the <strong>broadcast address</strong> of the subnet <span class="highlight-ip">${net}/${prefix}</span>?`,
@@ -699,8 +740,8 @@ const I18N = {
       magicStep4: (net, bc) => `<strong>${net}</strong> to <strong>${bc}</strong>`,
       validHostsH: (prefix, h) => `32 - ${prefix} = <strong>${h} bits</strong>`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> (Excluding network ID and broadcast address)`,
-      sameSubnetHostA: (net, prefix, bc) => `Host A Network: <strong>${net}/${prefix}</strong> (Broadcast: ${bc})`,
-      sameSubnetHostB: (net, prefix, bc) => `Host B Network: <strong>${net}/${prefix}</strong> (Broadcast: ${bc})`,
+      sameSubnetHostA: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (Broadcast: ${bc})`,
+      sameSubnetHostB: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (Broadcast: ${bc})`,
       sameSubnetYes: "Same network ID and broadcast domain: <strong>Can communicate directly at L2 (YES)</strong>",
       sameSubnetNo: "Different subnets: <strong>Requires default gateway routing (NO)</strong>"
     }
@@ -751,13 +792,41 @@ const I18N = {
     cheatTitle: "📖 CCNA 必备：魔术数字 (Magic Number) 速查与借位表",
     cheatOpen: "▼ 点击展开",
     cheatClose: "▲ 点击收起",
-    cheatHeadCols: ["CIDR (第4字节)", "掩码十进制", "借位数", "魔术数字 (块大小 256-掩码)", "可用主机数 (2^H - 2)"],
+    cheatHeadCols: ["CIDR (第4字节)", "点分十进制掩码", "借用位数", "魔术数字 (块大小 256-掩码)", "有效主机数 (2^H - 2)"],
+    cheatRows: [
+      ["/25", ".128", "1 位", "128", "126"],
+      ["/26", ".192", "2 位", "64", "62"],
+      ["/27", ".224", "3 位", "32", "30"],
+      ["/28", ".240", "4 位", "16", "14"],
+      ["/29", ".248", "5 位", "8", "6"],
+      ["/30", ".252", "6 位", "4", "2 (点对点 WAN 线路)"],
+      ["/31", ".254", "7 位", "2", "2 (RFC 3021 路由直连)"],
+      ["/32", ".255", "8 位", "1", "1 (主机路由 / Loopback)"]
+    ],
     cheatTip: `💡 <strong>CCNA 极速口算法 (Magic Number Method)：</strong><br>
 1. 找到<strong>关键字节 (Interesting Octet)</strong>：/16~/23 看第 3 字节，/24~/30 看第 4 字节。<br>
 2. 魔术数字 = <code>256 - 该字节掩码</code>，即每个子网的<strong>步长 (Block Size)</strong>。<br>
-3. 子网网络地址必为步长的整数倍（0, 步长, 步长×2...），找到 $\\le$ IP 的最大倍数即为网络地址！`,
+3. 子网网络地址必为步长的整数倍（0, 步长, 步长×2...），找到 $\le$ IP 的最大倍数即为网络地址！`,
     shortcutHint: "快捷键提示: [Enter] 提交或下一题 | [Space] 揭晓解析 | CCNA 目标用时: 每题 15~25 秒内",
     octets: ["第 1 字节", "第 2 字节", "第 3 字节", "第 4 字节"],
+    stepLabels: {
+      boundary: "1. 整字节边界:",
+      netHost: "2. 网络/主机位划分:",
+      range: "3. 本子网完整范围:",
+      result: "4. 最终结论:",
+      interestingOctet: "1. 关键字节定位:",
+      magicNumber: "2. 魔术数字 (步长):",
+      multiples: "3. 寻找所属区间:",
+      fullRange: "4. 本子网完整范围:",
+      magicResult: "5. 最终结论:",
+      hostBits: "主机位数 (H):",
+      formula: "计算公式:",
+      cidrPrefix: "CIDR 前缀:",
+      maskDec: "点分十进制掩码:",
+      hostA: "主机 A 所属子网:",
+      hostB: "主机 B 所属子网:",
+      sameResult: "判定结果:"
+    },
     questions: {
       NET_ID: (ip, prefix) => `IP 地址 <span class="highlight-ip">${ip}/${prefix}</span> 所在子网的<strong>网络地址</strong>是多少？`,
       BROADCAST: (net, prefix) => `子网 <span class="highlight-ip">${net}/${prefix}</span> 的<strong>广播地址</strong>是多少？`,
@@ -784,8 +853,8 @@ const I18N = {
       magicStep4: (net, bc) => `<strong>${net}</strong> 至 <strong>${bc}</strong>`,
       validHostsH: (prefix, h) => `32 - ${prefix} = <strong>${h} 位</strong>`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> (减去网络地址与广播地址)`,
-      sameSubnetHostA: (net, prefix, bc) => `主机 A 所属网络: <strong>${net}/${prefix}</strong> (广播: ${bc})`,
-      sameSubnetHostB: (net, prefix, bc) => `主机 B 所属网络: <strong>${net}/${prefix}</strong> (广播: ${bc})`,
+      sameSubnetHostA: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (广播: ${bc})`,
+      sameSubnetHostB: (net, prefix, bc) => `<strong>${net}/${prefix}</strong> (广播: ${bc})`,
       sameSubnetYes: "网络地址相同，处于同一广播域，<strong>可以直接通信 (YES)</strong>",
       sameSubnetNo: "网络地址不同，跨子网，<strong>必须经默认网关路由 (NO)</strong>"
     }
@@ -914,28 +983,14 @@ function pickPrefix(scope) {
   return Math.floor(Math.random() * 13) + 18; // 混合重点
 }
 
-// 题库生成
-function createQuestion() {
+// 填充题目文本与解析
+function populateQuestionTexts(q) {
   const t = getT();
-  const scope = document.getElementById('prefixScope').value || 'ALL';
-  let category = document.getElementById('categorySelect').value || 'ALL';
+  const sub = q.sub;
+  const ip = q.ip;
+  const prefix = q.prefix;
 
-  const validCategories = ['NET_ID', 'BROADCAST', 'FIRST_HOST', 'LAST_HOST', 'VALID_HOSTS', 'MASK_CONVERT', 'SAME_SUBNET'];
-  if (category === 'ALL') {
-    category = validCategories[Math.floor(Math.random() * validCategories.length)];
-  }
-
-  const prefix = pickPrefix(scope);
-  const ip = generateRandomIP(prefix);
-  const sub = SubnetUtils.calc(ip, prefix);
-
-  let q = {
-    category,
-    type: 'TEXT',
-    sub
-  };
-
-  switch (category) {
+  switch (q.category) {
     case 'NET_ID':
       q.badge = t.categories.NET_ID;
       q.prompt = t.questions.NET_ID(ip, prefix);
@@ -970,25 +1025,24 @@ function createQuestion() {
       q.answer = sub.usableHosts.toString();
       const hostBits = 32 - prefix;
       q.explanation = `
-        <div class="magic-step"><span class="step-label">Host Bits (H):</span>${t.explanations.validHostsH(prefix, hostBits)}</div>
-        <div class="magic-step"><span class="step-label">Formula:</span>${t.explanations.validHostsFormula(hostBits, sub.usableHosts)}</div>
+        <div class="magic-step"><span class="step-label">${t.stepLabels.hostBits}</span>${t.explanations.validHostsH(prefix, hostBits)}</div>
+        <div class="magic-step"><span class="step-label">${t.stepLabels.formula}</span>${t.explanations.validHostsFormula(hostBits, sub.usableHosts)}</div>
       `;
       break;
 
     case 'MASK_CONVERT':
       q.badge = t.categories.MASK_CONVERT;
-      const isCidrToMask = Math.random() > 0.5;
-      if (isCidrToMask) {
+      if (q.isCidrToMask) {
         q.prompt = t.questions.CIDR_TO_MASK(prefix);
         q.answer = sub.mask;
         q.explanation = `
-          <div class="magic-step"><span class="step-label">CIDR /${prefix}:</span>${sub.mask}</div>
+          <div class="magic-step"><span class="step-label">${t.stepLabels.cidrPrefix}</span>/${prefix} ➔ <strong>${sub.mask}</strong></div>
         `;
       } else {
         q.prompt = t.questions.MASK_TO_CIDR(sub.mask, prefix);
         q.answer = prefix.toString();
         q.explanation = `
-          <div class="magic-step"><span class="step-label">Mask ${sub.mask}:</span>/${prefix}</div>
+          <div class="magic-step"><span class="step-label">${t.stepLabels.maskDec}</span>${sub.mask} ➔ <strong>/${prefix}</strong></div>
         `;
       }
       break;
@@ -996,42 +1050,68 @@ function createQuestion() {
     case 'SAME_SUBNET':
       q.badge = t.categories.SAME_SUBNET;
       q.type = 'CHOICE';
-      const isSame = Math.random() > 0.5;
-      let host2Ip;
-      if (isSame) {
-        const netInt = SubnetUtils.ipToInt(sub.network);
-        const hostOffset = Math.min(sub.usableHosts, Math.floor(Math.random() * (sub.usableHosts || 2)) + 1);
-        host2Ip = SubnetUtils.intToIp(netInt + hostOffset);
-      } else {
-        const diffNetInt = (SubnetUtils.ipToInt(sub.network) + (sub.magicNumber << (8 * (4 - sub.octetIndex)))) >>> 0;
-        host2Ip = SubnetUtils.intToIp(diffNetInt + 1);
-      }
-
-      q.prompt = t.questions.SAME_SUBNET(ip, host2Ip, prefix);
-      q.answer = isSame ? 'YES' : 'NO';
-      const host2Sub = SubnetUtils.calc(host2Ip, prefix);
+      q.prompt = t.questions.SAME_SUBNET(ip, q.host2Ip, prefix);
+      q.answer = q.isSame ? 'YES' : 'NO';
+      const host2Sub = SubnetUtils.calc(q.host2Ip, prefix);
       q.explanation = `
-        <div class="magic-step"><span class="step-label">Host A:</span>${t.explanations.sameSubnetHostA(sub.network, prefix, sub.broadcast)}</div>
-        <div class="magic-step"><span class="step-label">Host B:</span>${t.explanations.sameSubnetHostB(host2Sub.network, prefix, host2Sub.broadcast)}</div>
-        <div class="magic-step"><span class="step-label">Result:</span>${isSame ? t.explanations.sameSubnetYes : t.explanations.sameSubnetNo}</div>
+        <div class="magic-step"><span class="step-label">${t.stepLabels.hostA}</span>${t.explanations.sameSubnetHostA(sub.network, prefix, sub.broadcast)}</div>
+        <div class="magic-step"><span class="step-label">${t.stepLabels.hostB}</span>${t.explanations.sameSubnetHostB(host2Sub.network, prefix, host2Sub.broadcast)}</div>
+        <div class="magic-step"><span class="step-label">${t.stepLabels.sameResult}</span>${q.isSame ? t.explanations.sameSubnetYes : t.explanations.sameSubnetNo}</div>
       `;
       break;
   }
+}
 
+// 题库生成
+function createQuestion() {
+  const scope = document.getElementById('prefixScope').value || 'ALL';
+  let category = document.getElementById('categorySelect').value || 'ALL';
+
+  const validCategories = ['NET_ID', 'BROADCAST', 'FIRST_HOST', 'LAST_HOST', 'VALID_HOSTS', 'MASK_CONVERT', 'SAME_SUBNET'];
+  if (category === 'ALL') {
+    category = validCategories[Math.floor(Math.random() * validCategories.length)];
+  }
+
+  const prefix = pickPrefix(scope);
+  const ip = generateRandomIP(prefix);
+  const sub = SubnetUtils.calc(ip, prefix);
+
+  let q = {
+    category,
+    type: 'TEXT',
+    sub,
+    ip,
+    prefix,
+    isCidrToMask: Math.random() > 0.5
+  };
+
+  if (category === 'SAME_SUBNET') {
+    q.isSame = Math.random() > 0.5;
+    if (q.isSame) {
+      const netInt = SubnetUtils.ipToInt(sub.network);
+      const hostOffset = Math.min(sub.usableHosts, Math.floor(Math.random() * (sub.usableHosts || 2)) + 1);
+      q.host2Ip = SubnetUtils.intToIp(netInt + hostOffset);
+    } else {
+      const diffNetInt = (SubnetUtils.ipToInt(sub.network) + (sub.magicNumber << (8 * (4 - sub.octetIndex)))) >>> 0;
+      q.host2Ip = SubnetUtils.intToIp(diffNetInt + 1);
+    }
+  }
+
+  populateQuestionTexts(q);
   return q;
 }
 
-// 格式化解析步骤
+// 格式化解析步骤 (魔术数字法)
 function generateMagicExplanation(sub, targetField) {
   const t = getT();
   const targetDesc = t.explanations.targetDesc[targetField](sub[targetField]);
 
   if (sub.isBoundary) {
     return `
-      <div class="magic-step"><span class="step-label">1. Boundary:</span>${t.explanations.boundaryStep1(sub.prefix, sub.mask)}</div>
-      <div class="magic-step"><span class="step-label">2. Net / Host:</span>${t.explanations.boundaryStep2(sub.prefix / 8)}</div>
-      <div class="magic-step"><span class="step-label">3. Range:</span>${t.explanations.boundaryStep3(sub.network, sub.broadcast)}</div>
-      <div class="magic-step"><span class="step-label">4. Result:</span>${targetDesc}</div>
+      <div class="magic-step"><span class="step-label">${t.stepLabels.boundary}</span>${t.explanations.boundaryStep1(sub.prefix, sub.mask)}</div>
+      <div class="magic-step"><span class="step-label">${t.stepLabels.netHost}</span>${t.explanations.boundaryStep2(sub.prefix / 8)}</div>
+      <div class="magic-step"><span class="step-label">${t.stepLabels.range}</span>${t.explanations.boundaryStep3(sub.network, sub.broadcast)}</div>
+      <div class="magic-step"><span class="step-label">${t.stepLabels.result}</span>${targetDesc}</div>
     `;
   }
 
@@ -1043,11 +1123,11 @@ function generateMagicExplanation(sub, targetField) {
   const factor = Math.floor(curOctetVal / sub.magicNumber);
 
   return `
-    <div class="magic-step"><span class="step-label">1. Interesting Octet:</span>${t.explanations.magicStep1(sub.mask, octetName, sub.maskOctetVal)}</div>
-    <div class="magic-step"><span class="step-label">2. Magic Number:</span>${t.explanations.magicStep2(sub.maskOctetVal, sub.magicNumber)}</div>
-    <div class="magic-step"><span class="step-label">3. Subnet Multiples:</span>${t.explanations.magicStep3(curOctetVal, netOctetVal, sub.magicNumber, factor)}</div>
-    <div class="magic-step"><span class="step-label">4. Subnet Range:</span>${t.explanations.magicStep4(sub.network, sub.broadcast)}</div>
-    <div class="magic-step"><span class="step-label">5. Result:</span>${targetDesc}</div>
+    <div class="magic-step"><span class="step-label">${t.stepLabels.interestingOctet}</span>${t.explanations.magicStep1(sub.mask, octetName, sub.maskOctetVal)}</div>
+    <div class="magic-step"><span class="step-label">${t.stepLabels.magicNumber}</span>${t.explanations.magicStep2(sub.maskOctetVal, sub.magicNumber)}</div>
+    <div class="magic-step"><span class="step-label">${t.stepLabels.multiples}</span>${t.explanations.magicStep3(curOctetVal, netOctetVal, sub.magicNumber, factor)}</div>
+    <div class="magic-step"><span class="step-label">${t.stepLabels.fullRange}</span>${t.explanations.magicStep4(sub.network, sub.broadcast)}</div>
+    <div class="magic-step"><span class="step-label">${t.stepLabels.magicResult}</span>${targetDesc}</div>
   `;
 }
 
@@ -1180,6 +1260,25 @@ function updateLanguageUI() {
   document.getElementById('cheatSheetTitle').textContent = t.cheatTitle;
   document.getElementById('cheatSheetTip').innerHTML = t.cheatTip;
   document.getElementById('shortcutHint').textContent = t.shortcutHint;
+  document.getElementById('targetAnswerLabel').textContent = t.targetAnswerLabel;
+
+  // 动态渲染速查表表头与内容行
+  const headEl = document.getElementById('cheatTableHead');
+  if (headEl) {
+    headEl.innerHTML = t.cheatHeadCols.map(col => `<th>${col}</th>`).join('');
+  }
+  const bodyEl = document.getElementById('cheatTableBody');
+  if (bodyEl) {
+    bodyEl.innerHTML = t.cheatRows.map(row => `
+      <tr>
+        <td>${row[0]}</td>
+        <td>${row[1]}</td>
+        <td>${row[2]}</td>
+        <td><strong>${row[3]}</strong></td>
+        <td>${row[4]}</td>
+      </tr>
+    `).join('');
+  }
 
   // 计时器按钮文本
   const timerBtn = document.getElementById('timerToggleBtn');
@@ -1216,13 +1315,27 @@ function updateLanguageUI() {
   });
 }
 
-// 切换语言
+// 切换语言 (即时刷新当前题目与解析)
 function setLanguage(lang) {
   if (state.lang === lang) return;
   state.lang = lang;
   updateLanguageUI();
-  // 重新生成当前题目以应用新语言
-  loadNewQuestion();
+
+  if (state.currentQuestion) {
+    populateQuestionTexts(state.currentQuestion);
+    document.getElementById('qTypeBadge').textContent = state.currentQuestion.badge;
+    document.getElementById('qPrompt').innerHTML = state.currentQuestion.prompt;
+    document.getElementById('ccnaBreakdown').innerHTML = state.currentQuestion.explanation;
+
+    const mode = document.getElementById('modeSelect').value;
+    if (mode === 'FLASHCARD') {
+      document.getElementById('revealBtn').textContent = getT().revealBtnFlashcard;
+    } else {
+      document.getElementById('revealBtn').textContent = getT().revealBtnPractice;
+    }
+  } else {
+    loadNewQuestion();
+  }
 }
 
 // 切换计时器开启/关闭
@@ -1304,7 +1417,7 @@ document.addEventListener('keydown', (e) => {
     if (state.answered) {
       loadNewQuestion();
     } else {
-      if (state.currentQuestion.type === 'TEXT') {
+      if (state.currentQuestion && state.currentQuestion.type === 'TEXT') {
         handleAnswer(document.getElementById('answerInput').value);
       }
     }
@@ -1326,4 +1439,3 @@ loadNewQuestion();
 </script>
 </body>
 </html>
-
