@@ -1,0 +1,13 @@
+# Python & Cache
+*.pyc
+__pycache__/
+*.json
+*.py
+
+# Anki Decks
+*.apkg
+
+# OS Files
+.DS_Store
+Thumbs.db
+.vscode/
