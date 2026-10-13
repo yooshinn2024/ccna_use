@@ -802,7 +802,7 @@ const I18N = {
     cheatTip: `💡 <strong>CCNA Mental Math (Magic Number Method):</strong><br>
 1. <strong>Identify Interesting Octet</strong>: /16~/23 is in 3rd octet; /24~/30 is in 4th octet.<br>
 2. Magic Number = <code>256 - Mask Octet Value</code> (Subnet Block Size).<br>
-3. The Network Address is always a multiple of the Magic Number (0, Block, Block×2...). Find the largest multiple <= IP!`,
+3. The Network Address is always a multiple of the Magic Number (0, Block, Block×2...). Find the largest multiple ≤ IP!`,
     shortcutHint: "Shortcuts: [Enter] Submit / Next Question | [Space] Reveal Answer | CCNA Goal: 15-25s per question",
     octets: ["1st Octet", "2nd Octet", "3rd Octet", "4th Octet"],
     stepLabels: {
@@ -845,7 +845,7 @@ const I18N = {
       boundaryStep3: (net, bc) => `All host bits 0 = network address <strong>${net}</strong>, all host bits 255 = broadcast address <strong>${bc}</strong>.`,
       magicStep1: (mask, octName, maskVal) => `Mask is <code>${mask}</code>, interesting octet is <strong>${octName}</strong> (Mask byte: <code>${maskVal}</code>)`,
       magicStep2: (maskVal, magic) => `256 - ${maskVal} = <strong>${magic}</strong> (Subnets increment by ${magic})`,
-      magicStep3: (cur, maxMult, magic, factor) => `The octet value is <code>${cur}</code>. The highest multiple of ${magic} <= ${cur} is <strong>${maxMult}</strong> (${magic} × ${factor})`,
+      magicStep3: (cur, maxMult, magic, factor) => `The octet value is <code>${cur}</code>. The highest multiple of ${magic} ≤ ${cur} is <strong>${maxMult}</strong> (${magic} × ${factor})`,
       magicStep4: (net, bc) => `<strong>${net}</strong> to <strong>${bc}</strong>`,
       validHostsH: (prefix, h) => `32 - ${prefix} = <strong>${h} bits</strong>`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> (Excluding network ID and broadcast address)`,
@@ -915,7 +915,7 @@ const I18N = {
     cheatTip: `💡 <strong>CCNA 极速口算法 (Magic Number Method)：</strong><br>
 1. 找到<strong>关键字节 (Interesting Octet)</strong>：/16~/23 看第 3 字节，/24~/30 看第 4 字节。<br>
 2. 魔术数字 = <code>256 - 该字节掩码</code>，即每个子网的<strong>步长 (Block Size)</strong>。<br>
-3. 子网网络地址必为步长的整数倍（0, 步长, 步长×2...），找到 $\le$ IP 的最大倍数即为网络地址！`,
+3. 子网网络地址必为步长的整数倍（0, 步长, 步长×2...），找到 ≤ IP 的最大倍数即为网络地址！`,
     shortcutHint: "快捷键提示: [Enter] 提交或下一题 | [Space] 揭晓解析 | CCNA 目标用时: 每题 15~25 秒内",
     octets: ["第 1 字节", "第 2 字节", "第 3 字节", "第 4 字节"],
     stepLabels: {
@@ -958,7 +958,7 @@ const I18N = {
       boundaryStep3: (net, bc) => `主机位全 0 即网络地址 <strong>${net}</strong>，主机位全 255 即广播地址 <strong>${bc}</strong>。`,
       magicStep1: (mask, octName, maskVal) => `掩码为 <code>${mask}</code>，变化发生在 <strong>${octName}</strong> (该字节掩码值: <code>${maskVal}</code>)`,
       magicStep2: (maskVal, magic) => `256 - ${maskVal} = <strong>${magic}</strong> (该字节每隔 ${magic} 划分一个子网)`,
-      magicStep3: (cur, maxMult, magic, factor) => `该字节 IP 为 <code>${cur}</code>。步长倍数中 $\\le ${cur}$ 的最大倍数是 <strong>${maxMult}</strong> (即 ${magic} × ${factor})`,
+      magicStep3: (cur, maxMult, magic, factor) => `该字节 IP 为 <code>${cur}</code>。步长倍数中 ≤ ${cur} 的最大倍数是 <strong>${maxMult}</strong> (即 ${magic} × ${factor})`,
       magicStep4: (net, bc) => `<strong>${net}</strong> 至 <strong>${bc}</strong>`,
       validHostsH: (prefix, h) => `32 - ${prefix} = <strong>${h} 位</strong>`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> (减去网络地址与广播地址)`,
