@@ -39,7 +39,7 @@
       gap: 1.25rem;
     }
 
-    /* 顶部导航与语言/统计 */
+    /* Top Navigation, Language Switcher & Stats */
     header {
       display: flex;
       justify-content: space-between;
@@ -79,7 +79,7 @@
       flex-wrap: wrap;
     }
 
-    /* 语言切换器 */
+    /* Language Switcher */
     .lang-switcher {
       display: flex;
       background: var(--card-bg);
@@ -104,7 +104,7 @@
       font-weight: 700;
     }
 
-    /* 战绩统计 */
+    /* Stats Bar */
     .stats-bar {
       display: flex;
       gap: 1rem;
@@ -120,7 +120,7 @@
     .stat-val.accuracy { color: var(--success); }
     .stat-label { font-size: 0.7rem; color: var(--text-muted); }
 
-    /* 控制面板 */
+    /* Control Panel */
     .controls {
       display: flex;
       justify-content: space-between;
@@ -158,7 +158,7 @@
       color: var(--warning);
     }
 
-    /* 题目卡片 */
+    /* Question Card */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -205,7 +205,7 @@
       font-family: monospace;
     }
 
-    /* 答题交互区 */
+    /* Interaction Area */
     .interaction-area {
       display: flex;
       flex-direction: column;
@@ -261,7 +261,7 @@
     }
     .btn-reveal:hover { color: var(--text-main); border-color: var(--text-muted); }
 
-    /* 选择题按钮 */
+    /* Multiple Choice Buttons */
     .choice-group {
       display: flex;
       gap: 1rem;
@@ -280,7 +280,7 @@
     }
     .choice-btn:hover { border-color: var(--accent); }
 
-    /* 答案与 CCNA 解析区域 */
+    /* Answer & CCNA Breakdown Section */
     .answer-box {
       border-top: 1px solid var(--card-border);
       padding-top: 1.25rem;
@@ -306,7 +306,7 @@
       margin-bottom: 1rem;
     }
 
-    /* CCNA 专属解析板 (Magic Number) */
+    /* CCNA Magic Number Breakdown Panel */
     .ccna-breakdown {
       background: rgba(15, 23, 42, 0.7);
       border-left: 4px solid var(--accent);
@@ -330,14 +330,14 @@
       min-width: 140px;
     }
 
-    /* 底部按钮栏 */
+    /* Bottom Action Row */
     .action-row {
       display: flex;
       justify-content: flex-end;
       gap: 0.75rem;
     }
 
-    /* CCNA 速记表折叠面板 */
+    /* CCNA Cheat Sheet Collapsible Panel */
     .cheat-sheet-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -382,7 +382,7 @@
     }
 
 
-    /* 移动端响应式适配 (防横向溢出与布局优化) */
+    /* Mobile Responsive Layout */
     @media (max-width: 640px) {
       body {
         padding: 0.75rem 0.5rem 2rem;
@@ -435,7 +435,7 @@
         font-size: 1.15rem;
         line-height: 1.5;
       }
-      /* 手机版输入框与提交按钮垂直排列，完美防止向右溢出 */
+      /* Stack input and submit button vertically on mobile to prevent horizontal overflow */
       .input-row {
         flex-direction: column;
         width: 100%;
@@ -497,13 +497,13 @@
 <body>
 
 <div class="container">
-  <!-- 头部：标题、统计、语言切换 -->
+  <!-- Header: Title, Language Switcher & Stats -->
   <header>
     <div class="header-left">
       <h1>Subnet Master <span class="badge" id="appBadge">CCNA サブネット特訓 v2.3</span></h1>
     </div>
     <div class="header-right">
-      <!-- 语言选择按钮组 (默认日语) -->
+      <!-- Language Switcher (Default: Japanese) -->
       <div class="lang-switcher">
         <button class="lang-btn active" data-lang="ja">日本語</button>
         <button class="lang-btn" data-lang="en">English</button>
@@ -527,36 +527,36 @@
     </div>
   </header>
 
-  <!-- 设置与过滤栏 -->
+  <!-- Controls & Filters -->
   <div class="controls">
     <div class="control-group">
       <label for="categorySelect" id="labelCategory">出題タイプ：</label>
       <select id="categorySelect">
-        <!-- 选项由 JS 动态本地化注入 -->
+        <!-- Options dynamically injected via JS i18n -->
       </select>
     </div>
 
     <div class="control-group">
       <label for="prefixScope" id="labelScope">プレフィックス範囲：</label>
       <select id="prefixScope">
-        <!-- 选项由 JS 动态本地化注入 -->
+        <!-- Options dynamically injected via JS i18n -->
       </select>
     </div>
 
     <div class="control-group">
       <label for="modeSelect" id="labelMode">モード：</label>
       <select id="modeSelect">
-        <!-- 选项由 JS 动态本地化注入 -->
+        <!-- Options dynamically injected via JS i18n -->
       </select>
     </div>
 
-    <!-- 计时器开关 (默认关闭) -->
+    <!-- Stopwatch Toggle (Default: OFF) -->
     <div class="control-group">
       <button class="btn-secondary" id="timerToggleBtn">⏱ タイマー: OFF</button>
     </div>
   </div>
 
-  <!-- 主题目卡片 -->
+  <!-- Main Question Card -->
   <div class="card">
     <div class="q-meta">
       <span class="q-category" id="qTypeBadge">サブネット計算</span>
@@ -567,15 +567,15 @@
       読み込み中...
     </div>
 
-    <!-- 交互输入区 -->
+    <!-- User Interaction Area -->
     <div class="interaction-area" id="interactionArea">
-      <!-- 填空输入模式 -->
+      <!-- Text Input Mode -->
       <div class="input-row" id="textInputRow">
         <input type="text" id="answerInput" placeholder="回答を入力してEnter (例: 192.168.1.0)" autocomplete="off" spellcheck="false">
         <button class="btn-primary" id="submitBtn">送信 (Enter)</button>
       </div>
 
-      <!-- 选择题模式 (Yes / No) -->
+      <!-- Choice Mode (Yes / No) -->
       <div class="choice-group" id="choiceGroup" style="display: none;">
         <button class="choice-btn" id="choiceBtnYes" data-choice="YES">はい (同一サブネット)</button>
         <button class="choice-btn" id="choiceBtnNo" data-choice="NO">いいえ (別サブネット)</button>
@@ -584,7 +584,7 @@
       <button class="btn-reveal" id="revealBtn">🤔 解説を見る (またはSpace)</button>
     </div>
 
-    <!-- 结果与 CCNA 考点解析 -->
+    <!-- Answer Result & CCNA Explanation -->
     <div class="answer-box" id="answerBox">
       <div id="resultStatus"></div>
       <div class="correct-answer-text">
@@ -592,7 +592,7 @@
       </div>
 
       <div class="ccna-breakdown" id="ccnaBreakdown">
-        <!-- 动态注入解析推导 -->
+        <!-- Dynamically injected step-by-step breakdown -->
       </div>
 
       <div class="action-row" style="margin-top: 1.25rem;">
@@ -601,7 +601,7 @@
     </div>
   </div>
 
-  <!-- CCNA 必备：速记魔术数字口诀表 -->
+  <!-- CCNA Cheat Sheet: Magic Number Reference -->
   <div class="cheat-sheet-card">
     <div class="cheat-sheet-header" id="cheatSheetToggle">
       <span id="cheatSheetTitle">📖 CCNA 必須：マジックナンバー (Magic Number) 速算・借用ビット表</span>
@@ -615,7 +615,7 @@
         <tbody id="cheatTableBody"></tbody>
       </table>
       <div id="cheatSheetTip" style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;">
-        <!-- 动态语言填充 -->
+        <!-- Dynamically populated via i18n -->
       </div>
     </div>
   </div>
@@ -627,7 +627,7 @@
 
 <script>
 /**
- * 多语言辞书 (i18n Dictionary)
+ * Tri-Lingual i18n Dictionary (JA / EN / ZH)
  */
 const I18N = {
   ja: {
@@ -971,7 +971,7 @@ const I18N = {
 };
 
 /**
- * CCNA 子网计算工具类
+ * CCNA Bitwise Subnet Calculation Utility
  */
 class SubnetUtils {
   static ipToInt(ip) {
@@ -1043,11 +1043,11 @@ class SubnetUtils {
 }
 
 /**
- * 全局状态 (默认日语、倒计时默认关闭)
+ * Global Application State (Default: JA, Timer OFF)
  */
 const state = {
-  lang: 'ja',             // 默认语言: 日语
-  timerEnabled: false,    // 倒计时默认关闭
+  lang: 'ja',             // Default language: Japanese
+  timerEnabled: false,    // Stopwatch disabled by default
   currentQuestion: null,
   answered: false,
   timerInterval: null,
@@ -1064,7 +1064,7 @@ function getT() {
   return I18N[state.lang] || I18N.ja;
 }
 
-// 随机 IP 生成
+// Generate random IPv4 address
 function generateRandomIP(prefix) {
   let o1, o2, o3, o4;
   if (prefix >= 24) {
@@ -1085,15 +1085,15 @@ function generateRandomIP(prefix) {
   return `${o1}.${o2}.${o3}.${o4}`;
 }
 
-// 抽取前缀
+// Pick random prefix length based on selected scope
 function pickPrefix(scope) {
   if (scope === 'CLASS_C') return Math.floor(Math.random() * 7) + 24; // 24-30
   if (scope === 'CLASS_B') return Math.floor(Math.random() * 8) + 16; // 16-23
   if (scope === 'CLASS_A') return Math.floor(Math.random() * 8) + 8;  // 8-15
-  return Math.floor(Math.random() * 13) + 18; // 混合重点
+  return Math.floor(Math.random() * 13) + 18; // Mixed scope focus (/18 ~ /30)
 }
 
-// 填充题目文本与解析
+// Populate localized question prompt and explanation
 function populateQuestionTexts(q) {
   const t = getT();
   const sub = q.sub;
@@ -1172,7 +1172,7 @@ function populateQuestionTexts(q) {
   }
 }
 
-// 题库生成
+// Question factory
 function createQuestion() {
   const scope = document.getElementById('prefixScope').value || 'ALL';
   let category = document.getElementById('categorySelect').value || 'ALL';
@@ -1211,7 +1211,7 @@ function createQuestion() {
   return q;
 }
 
-// 格式化解析步骤 (魔术数字法)
+// Format step-by-step Magic Number explanation
 function generateMagicExplanation(sub, targetField) {
   const t = getT();
   const targetDesc = t.explanations.targetDesc[targetField](sub[targetField]);
@@ -1241,7 +1241,7 @@ function generateMagicExplanation(sub, targetField) {
   `;
 }
 
-// 渲染新题目
+// Render a new question
 function loadNewQuestion() {
   const t = getT();
   state.answered = false;
@@ -1251,7 +1251,7 @@ function loadNewQuestion() {
   document.getElementById('qTypeBadge').textContent = q.badge;
   document.getElementById('qPrompt').innerHTML = q.prompt;
 
-  // 界面状态复位 (保证页面稳定不跳动)
+  // Reset UI state (preserve viewport stability)
   document.getElementById('answerBox').style.display = 'none';
   const inputEl = document.getElementById('answerInput');
   inputEl.readOnly = false;
@@ -1271,7 +1271,7 @@ function loadNewQuestion() {
     inputEl.focus();
   }
 
-  // 模式适配
+  // Adapt UI for selected practice mode
   const mode = document.getElementById('modeSelect').value;
   if (mode === 'FLASHCARD') {
     textRow.style.display = 'none';
@@ -1281,7 +1281,7 @@ function loadNewQuestion() {
     document.getElementById('revealBtn').textContent = t.revealBtnPractice;
   }
 
-  // 计时器处理 (默认关闭)
+  // Stopwatch handling (disabled by default)
   clearInterval(state.timerInterval);
   const timerBadge = document.getElementById('timerDisplay');
   const timerVal = document.getElementById('timerVal');
@@ -1300,7 +1300,7 @@ function loadNewQuestion() {
   }
 }
 
-// 评判答案
+// Evaluate user answer
 function handleAnswer(userVal) {
   if (state.answered) return;
   state.answered = true;
@@ -1343,8 +1343,8 @@ function handleAnswer(userVal) {
   document.getElementById('ccnaBreakdown').innerHTML = q.explanation;
   document.getElementById('answerBox').style.display = 'block';
 
-  // 关键优化：移除聚焦跳动
-  // 防止浏览器自动向下强行滚屏跳动，同时锁住输入框并收起移动端键盘
+  // Prevent viewport jump by avoiding off-screen button focus
+  // Lock input in place and dismiss mobile virtual keyboard
   state.answeredAt = Date.now();
   if (inputEl) {
     inputEl.readOnly = true;
@@ -1363,12 +1363,12 @@ function escapeHtml(text) {
   return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// 更新界面所有静态文本为当前选定语言
+// Update all static UI labels for the active language
 function updateLanguageUI() {
   const t = getT();
   document.documentElement.lang = state.lang;
 
-  // 标题与标签
+  // Update headers and labels
   document.getElementById('appBadge').textContent = t.appBadge;
   document.getElementById('labelStreak').textContent = t.labelStreak;
   document.getElementById('labelTotal').textContent = t.labelTotal;
@@ -1385,7 +1385,7 @@ function updateLanguageUI() {
   document.getElementById('shortcutHint').textContent = t.shortcutHint;
   document.getElementById('targetAnswerLabel').textContent = t.targetAnswerLabel;
 
-  // 修复：同步速查表折叠按钮箭头状态文本 (展开/收起)
+  // Sync cheat sheet toggle indicator text (Expand / Collapse)
   const cheatContent = document.getElementById('cheatSheetContent');
   const isCheatOpen = cheatContent && cheatContent.style.display === 'block';
   const cheatArrow = document.getElementById('cheatArrow');
@@ -1393,20 +1393,20 @@ function updateLanguageUI() {
     cheatArrow.textContent = isCheatOpen ? t.cheatClose : t.cheatOpen;
   }
 
-  // 同步输入框占位符
+  // Sync input placeholder
   const inputEl = document.getElementById('answerInput');
   if (inputEl) {
     inputEl.placeholder = t.inputPlaceholder;
   }
 
-  // 同步揭晓按钮文本
+  // Sync reveal button label
   const mode = document.getElementById('modeSelect').value;
   const revealBtn = document.getElementById('revealBtn');
   if (revealBtn) {
     revealBtn.textContent = (mode === 'FLASHCARD') ? t.revealBtnFlashcard : t.revealBtnPractice;
   }
 
-  // 同步已揭晓/判定的结果状态徽章
+  // Sync result status badge if already answered
   if (state.answered && state.lastResult) {
     const resultStatus = document.getElementById('resultStatus');
     if (resultStatus) {
@@ -1420,13 +1420,13 @@ function updateLanguageUI() {
     }
   }
 
-  // 同步计时器关闭时的显示文本
+  // Sync timer off label
   if (!state.timerEnabled) {
     const timerVal = document.getElementById('timerVal');
     if (timerVal) timerVal.textContent = t.timerDisplayOff;
   }
 
-  // 动态渲染速查表表头与内容行
+  // Dynamically render cheat sheet table headers and rows
   const headEl = document.getElementById('cheatTableHead');
   if (headEl) {
     headEl.innerHTML = t.cheatHeadCols.map(col => `<th>${col}</th>`).join('');
@@ -1444,7 +1444,7 @@ function updateLanguageUI() {
     `).join('');
   }
 
-  // 计时器按钮文本
+  // Update timer toggle button text
   const timerBtn = document.getElementById('timerToggleBtn');
   if (state.timerEnabled) {
     timerBtn.textContent = t.timerBtnOn;
@@ -1454,7 +1454,7 @@ function updateLanguageUI() {
     timerBtn.classList.remove('active');
   }
 
-  // 刷新下拉菜单保留当前选中项
+  // Refresh dropdown options while preserving current selection
   const catSel = document.getElementById('categorySelect');
   const curCat = catSel.value || 'ALL';
   catSel.innerHTML = Object.entries(t.categories)
@@ -1473,13 +1473,13 @@ function updateLanguageUI() {
     .map(([k, v]) => `<option value="${k}" ${k === curMode ? 'selected' : ''}>${v}</option>`)
     .join('');
 
-  // 切换语言按钮高亮状态
+  // Update active state on language buttons
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === state.lang);
   });
 }
 
-// 切换语言 (即时刷新当前题目与解析)
+// Switch active language and translate current question in place
 function setLanguage(lang) {
   if (state.lang === lang) return;
   state.lang = lang;
@@ -1502,7 +1502,7 @@ function setLanguage(lang) {
   }
 }
 
-// 切换计时器开启/关闭
+// Toggle stopwatch ON / OFF
 function toggleTimer() {
   state.timerEnabled = !state.timerEnabled;
   const t = getT();
@@ -1530,7 +1530,7 @@ function toggleTimer() {
   }
 }
 
-// 事件绑定
+// Event listeners
 document.getElementById('submitBtn').addEventListener('click', () => {
   handleAnswer(document.getElementById('answerInput').value);
 });
@@ -1561,7 +1561,7 @@ document.getElementById('categorySelect').addEventListener('change', loadNewQues
 document.getElementById('prefixScope').addEventListener('change', loadNewQuestion);
 document.getElementById('modeSelect').addEventListener('change', loadNewQuestion);
 
-// 折叠速查表
+// Toggle collapsible cheat sheet
 document.getElementById('cheatSheetToggle').addEventListener('click', () => {
   const content = document.getElementById('cheatSheetContent');
   const arrow = document.getElementById('cheatArrow');
@@ -1575,13 +1575,13 @@ document.getElementById('cheatSheetToggle').addEventListener('click', () => {
   }
 });
 
-// 键盘快捷键监听
+// Keyboard shortcuts listener
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
     const now = Date.now();
     if (state.answered) {
-      // 设置 350ms 冷却时间，防止单次长按回车直接跳过答案进入下一题
+      // 350ms debounce to prevent a single Enter key press from skipping the explanation
       if (now - (state.answeredAt || 0) > 350) {
         loadNewQuestion();
       }
@@ -1606,7 +1606,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// 初始化启动 (默认日语、倒计时关闭)
+// Initialize application (Default: Japanese, Timer OFF)
 updateLanguageUI();
 loadNewQuestion();
 </script>

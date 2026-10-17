@@ -1,17 +1,17 @@
-# CCNA Subnet Master - 系统设计与架构思路文档 (Design Document)
+# CCNA Subnet Master - System Architecture & Design Document
 
-## 1. 项目定位与设计目标 (Vision & Objectives)
+## 1. Vision & Objectives
 
-**CCNA Subnet Master** 是一款专为思科认证网络工程师（Cisco CCNA 200-301）备考设计的极速子网划分训练引擎。
+**CCNA Subnet Master** is a high-speed IPv4 subnetting drill engine purpose-built for Cisco Certified Network Associate (CCNA 200-301) candidates.
 
-### 核心痛点与解决策略
-* **考场时间瓶颈**：CCNA 考试通常包含约 100 道题目，平均每题作答时间仅 70 秒。子网划分是路由、ACL、网络排错的基石，考生必须在 **15 ~ 25 秒内靠心算得出结果**。
-* **传统题库缺陷**：固定题库容易导致考生“死记硬背”，且缺乏即时步骤推导。
-* **解决方案**：构建**零依赖、纯客户端（Zero-Backend）**的动态算法生成引擎，支持无限随机题目、魔术数字法步骤推导与多语言（日/英/中）自由切换。
+### Core Challenges & Solutions
+* **Exam Time Constraints**: The CCNA exam consists of roughly 100 questions within a 120-minute window (~70 seconds per question). Because subnetting underpins routing tables, ACLs, and Layer 2/3 troubleshooting, candidates must solve subnetting calculations in **15 to 25 seconds using pure mental math**.
+* **Limitations of Static Question Banks**: Pre-generated question lists encourage rote memorization rather than algorithmic fluency, and often lack step-by-step mental math explanations.
+* **Our Solution**: A **zero-dependency, pure client-side (serverless)** procedural generation engine featuring infinite randomized questions, step-by-step "Magic Number" deductions, and instant tri-lingual (`JA` / `EN` / `ZH`) switching.
 
 ---
 
-## 2. 系统技术架构 (System Architecture)
+## 2. System Architecture
 
 ```
 +-----------------------------------------------------------------+
@@ -39,84 +39,83 @@
 +-----------------------------------------------------------------+
 ```
 
-### 核心设计原则
-1. **完全零后端与离线运行**：所有计算和题目均在浏览器沙箱内通过原生 JavaScript 完成，无任何外部库或 CDN 依赖，支持断网刷题。
-2. **轻量与响应式**：单文件打包，针对桌面端（全键盘流）与移动端（添加到主屏幕 PWA）做双重适配。
-3. **数据隐私性**：无数据埋点、无第三方 Cookie、刷题数据仅留存在客户端本地生命周期中。
+### Design Principles
+1. **Zero Backend & 100% Offline Capable**: All calculations, question synthesis, and answer verifications execute inside the browser sandbox in vanilla JavaScript without external libraries or network requests.
+2. **Lightweight & Responsive**: Packaged as a single self-contained HTML file optimized for both desktop keyboard workflows and mobile portrait touchscreens.
+3. **Strict Privacy**: Zero telemetry, zero cookies, and zero external API calls.
 
 ---
 
-## 3. 算法设计与数学模型 (Mathematical & Algorithmic Foundation)
+## 3. Mathematical & Algorithmic Foundation
 
-IPv4 地址是由 32 个二进制位（Bits）组成的数据结构。传统字符串截取方案性能差且容易出错，本项目全面采用 **32 位无符号整数按位运算（Bitwise Operations）**。
+An IPv4 address is fundamentally a 32-bit binary integer. Rather than relying on error-prone string manipulation, the engine performs **unsigned 32-bit bitwise arithmetic**.
 
-### 3.1 IP 与 32 位无符号整数互转
-JavaScript 的位移运算符默认处理 32 位有符号整数，通过 `>>> 0`（零填充右移）将其统一转换为标准无符号 32 位整数：
-$$\text{IP}_{\text{int}} = (O_1 \ll 24) \mid (O_2 \ll 16) \mid (O_3 \ll 8) \mid O_4 \pmod{2^{32}}$$
+### 3.1 IP to Unsigned 32-Bit Integer Conversion
+Because JavaScript bitwise operators default to signed 32-bit integers, the unsigned right-shift operator (`>>> 0`) is applied to coerce values into standard unsigned 32-bit integers (`uint32`):
+$$\text{IP}_{\text{int}} = ((O_1 \ll 24) \mid (O_2 \ll 16) \mid (O_3 \ll 8) \mid O_4) \ggg 0$$
 
-### 3.2 掩码与关键参数计算
-对于给定的 CIDR 前缀长度 $n$ ($0 \le n \le 32$)：
-* **子网掩码 (Netmask)**：
+### 3.2 Subnet Mask & Core Parameter Formulas
+Given a CIDR prefix length $n$ ($0 \le n \le 32$):
+* **Subnet Mask (Netmask)**:
   $$\text{Mask} = (\sim 0 \ll (32 - n)) \ggg 0$$
-* **通配符反掩码 (Wildcard Mask)**：
+* **Wildcard Mask**:
   $$\text{Wildcard} = (\sim \text{Mask}) \ggg 0$$
-* **网络地址 (Network Address)**：
+* **Network Address (Network ID)**:
   $$\text{Network} = (\text{IP} \;\&\; \text{Mask}) \ggg 0$$
-* **广播地址 (Broadcast Address)**：
+* **Broadcast Address**:
   $$\text{Broadcast} = (\text{Network} \mid \text{Wildcard}) \ggg 0$$
-* **有效主机范围 (Valid Host Range)**：
-  * 首有效主机：$\text{FirstHost} = \text{Network} + 1$
-  * 末有效主机：$\text{LastHost} = \text{Broadcast} - 1$
-  * 容纳有效主机数：$2^{(32 - n)} - 2$（$n \le 30$ 时；特殊前缀 $/31$ 为 2 台，$/32$ 为 1 台）
+* **Usable Host Range**:
+  * First Usable Host: $\text{FirstHost} = \text{Network} + 1$
+  * Last Usable Host: $\text{LastHost} = \text{Broadcast} - 1$
+  * Usable Host Count: $2^{(32 - n)} - 2$ (for $n \le 30$; edge cases handled for `/31` RFC 3021 point-to-point links with 2 hosts and `/32` host routes with 1 host).
 
 ---
 
-## 4. 思科考场心算法：魔术数字引擎 (Magic Number Method)
+## 4. Exam Mental Math Engine: The "Magic Number" Method
 
-为了契合 CCNA 权威教学（如 Jeremy's IT Lab、Wendell Odom 官方认证指南），解析引擎未采用机械的二进制掩码直接输出，而是实现了**魔术数字（步长/块大小）推导算法**：
+Aligned with official Cisco curricula and widely used CCNA training (such as Jeremy's IT Lab and Wendell Odom's Official Cert Guide), the explanation engine models the human mental math process rather than dumping raw binary strings:
 
-### 算法推导流程：
-1. **判断整字节边界 (Octet Boundary)**：
-   若 $n \pmod 8 == 0$（如 `/16`, `/24`），直接判定为整字节边界，网络位与主机位天然分割，无需借位。
-2. **定位着目字节 (Interesting Octet)**：
+### Deduction Pipeline
+1. **Octet Boundary Detection**:
+   If $n \pmod 8 == 0$ (`/8`, `/16`, `/24`), the subnet falls cleanly on an octet boundary. No bit borrowing is required.
+2. **Interesting Octet Identification**:
    $$\text{OctetIndex} = \lfloor n / 8 \rfloor + 1$$
-   * $/16 \sim /23$ $\rightarrow$ 锁定第 3 字节（Class B 易错区）；
-   * $/24 \sim /30$ $\rightarrow$ 锁定第 4 字节（Class C 核心区）。
-3. **计算魔术数字 (Block Size / 步长)**：
+   * `/16` ~ `/23` $\rightarrow$ 3rd Octet (Class B focus).
+   * `/24` ~ `/30` $\rightarrow$ 4th Octet (Class C focus).
+3. **Magic Number (Block Size) Calculation**:
    $$\text{MagicNumber} = 256 - \text{MaskOctetValue}$$
-4. **定位所属子网区间**：
-   取该字节实际 IP 值 $V$，寻找满足 $K \times \text{MagicNumber} \le V$ 的最大整数 $K$：
+4. **Subnet Block Interval Localization**:
+   Given the IP's value $V$ in the interesting octet, find the largest integer multiple $K$ such that $K \times \text{MagicNumber} \le V$:
    $$\text{NetworkOctetValue} = K \times \text{MagicNumber}$$
-5. **输出全生命周期解析**：包括网络号、广播号及二层通信可行性结论。
+5. **Full Lifecycle Breakdown**: Outputs the exact network ID, broadcast boundary, and Layer 2 direct communication verdict.
 
 ---
 
-## 5. 多语言国际化架构 (i18n Architecture)
+## 5. Internationalization (i18n) Architecture
 
-针对全球备考群体，系统内置日、英、中三种语言运行时，默认采用**日本思科官方考试术语标准（Japanese）**：
+The application supports real-time switching between Japanese (`ja`, default), English (`en`), and Chinese (`zh`):
 
-* **数据驱动字典 (Dictionary-driven)**：字典中将动态题干与解析步骤封装为模板函数，支持参数化实时插值。
-* **无刷新状态持久**：切换语言时，动态更新所有静态 DOM，并在内存中重新计算当前题目的多语言呈现，不丢失答题连胜（Streak）进度。
+* **Dictionary-Driven Interpolation**: Question prompts and step-by-step explanations are defined as parameterized template functions.
+* **In-Place Reactive Translation**: Switching languages dynamically re-renders all static UI controls, the cheat sheet table, and the active question/explanation in place without resetting the user's current question or streak counter.
 
-| 概念 | 日语 (CCNA标准) | 英语 (Cisco Official) | 中文 |
+| Concept | Japanese (Cisco JA) | English (Cisco Global) | Chinese (Simplified) |
 | :--- | :--- | :--- | :--- |
-| **网络地址** | ネットワークアドレス | Network Address | 网络地址 |
-| **广播地址** | ブロードキャストアドレス | Broadcast Address | 广播地址 |
-| **着目字节** | 着目オクテット | Interesting Octet | 关键字节 |
-| **魔术数字** | マジックナンバー (ブロックサイズ) | Magic Number (Block Size) | 魔术数字 (步长/块大小) |
-| **同子网判定** | 同一サブネット判定 | Same Subnet Check | 同子网判定 |
+| **Network Address** | ネットワークアドレス | Network Address | 网络地址 |
+| **Broadcast Address** | ブロードキャストアドレス | Broadcast Address | 广播地址 |
+| **Interesting Octet** | 着目オクテット | Interesting Octet | 关键字节 |
+| **Magic Number** | マジックナンバー (ブロックサイズ) | Magic Number (Block Size) | 魔术数字 (步长/块大小) |
+| **Same Subnet Check** | 同一サブネット判定 | Same Subnet Check | 同子网判定 |
 
 ---
 
-## 6. 交互体验设计 (UX & Gamification)
+## 6. User Experience (UX) & Interaction Design
 
-1. **双练习模式**：
-   * **实战输入模式 (Input Mode)**：强制回车提交，做题逻辑闭环，验证考场输入准确度。
-   * **翻牌心算模式 (Flashcard Mode)**：还原经典 `subnetting.org` 极简交互，专注口算速度。
-2. **非强制性可选秒表**：
-   * 默认关闭，减少初始心理压力；
-   * 支持一键开启，为考前 1 个月冲刺提供 20 秒极限心算训练支持。
-3. **极速键盘流支持**：
-   * `Enter`：提交答案 / 切换下一题
-   * `Space`：揭晓解析 / 翻牌
-
+1. **Dual Practice Modes**:
+   * **Real Exam Input Mode**: Validates typed IP/CIDR answers upon pressing `Enter`.
+   * **Flashcard Mode**: Mirrors classic `subnetting.org` mental math drills with one-key answer reveal.
+2. **Non-Intrusive Optional Timer**:
+   * Disabled by default to allow focused learning;
+   * Toggleable at any time for timed speed runs.
+3. **Zero-Jump Viewport Stability**:
+   * Submitting an answer locks the input in place and smoothly expands the explanation panel below without triggering browser auto-scroll jumps.
+   * Built-in `350ms` keydown debounce prevents accidental double-submissions when holding the `Enter` key.
