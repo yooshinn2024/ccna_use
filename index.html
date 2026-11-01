@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CCNA Subnet Master v3.0.0 - サブネット・ルーティング実戦特訓</title>
+  <title>Subnet Master v3.0.1 - IPv4 Subnetting & Routing Practice</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -633,7 +633,7 @@
   <!-- Header: Title, Language Switcher & Stats -->
   <header>
     <div class="header-left">
-      <h1>Subnet Master <span class="badge" id="appBadge">CCNA 実戦特訓 v3.0</span></h1>
+      <h1>Subnet Master <span class="badge" id="appBadge">サブネット実践演習 v3.0.1</span></h1>
     </div>
     <div class="header-right">
       <!-- Language Switcher (Default: Japanese) -->
@@ -761,18 +761,21 @@
   <div class="shortcut-hint" id="shortcutHint">
     ショートカット: [Enter] 送信 / 次の問題 | [Space] 答え・解説表示 | [A-D / 1-4] 選択肢回答
   </div>
+  <div class="shortcut-hint" id="disclaimerNote" style="opacity: 0.72; margin-top: -0.5rem;">
+    ※ 本ツールの問題はすべてアルゴリズムにより自動生成された独自の演習であり、実際の試験問題ではありません。
+  </div>
 </div>
 
 <script>
 /**
- * CCNA Subnet Master v3.0.0 - Tri-Lingual Internationalization Dictionary
+ * Subnet Master v3.0.1 - Tri-Lingual Internationalization Dictionary
  * Supports Japanese (JA), English (EN), and Simplified Chinese (ZH)
  * Designed for Cisco Certified Network Associate (CCNA 200-301) exam preparation.
  */
 
 const I18N = {
   ja: {
-    appBadge: "CCNA 実戦特訓 v3.0",
+    appBadge: "サブネット実践演習 v3.0.1",
     labelStreak: "連続正解",
     labelTotal: "回答数",
     labelAccuracy: "正答率",
@@ -783,8 +786,8 @@ const I18N = {
     timerBtnOn: "⏱ タイマー: ON",
     timerDisplayOff: "OFF",
     categories: {
-      ALL: "全タイプ混合 (CCNA本番レベル・推奨)",
-      EXAM_HARD: "★ CCNA 本番実戦シナリオ特訓 (7〜12)",
+      ALL: "全タイプ混合 (総合演習・推奨)",
+      EXAM_HARD: "★ 応用ネットワーク設計・運用演習 (7〜12)",
       CORE_DRILL: "⚡ 暗算・基礎計算スピード特訓 (1〜6)",
       NET_ID: "1. ネットワークアドレス (Network ID)",
       BROADCAST: "2. ダイレクトブロードキャストアドレス",
@@ -792,21 +795,21 @@ const I18N = {
       MASK_CONVERT: "4. サブネットマスク / CIDR / 2進数変換",
       VALID_HOSTS: "5. 有効ホスト数・サブネット数",
       SAME_SUBNET: "6. 同一サブネット判定 (L2 Direct Ping)",
-      LPM_ROUTING: "7. [本番] 最長一致ルーティング (LPM / Routing Table)",
-      SIM_SUBNET_LAB: "8. [シミュレーション] 第Nサブネット＆インターフェースIP",
-      VLSM_DESIGN: "9. [本番] VLSM 設計・容量・拡張バッファ・境界整合",
-      WILDCARD_ACL: "10. [本番] ワイルドカードマスク (OSPF / ACL)",
-      ROUTE_SUMMARY: "11. [本番] CIDR ルート集約 (Route Summarization)",
-      IP_TROUBLESHOOT: "12. [本番] IOS Bad Mask ＆ ゲートウェイ障害切り分け"
+      LPM_ROUTING: "7. [応用] 最長一致ルーティング (LPM / Routing Table)",
+      SIM_SUBNET_LAB: "8. [設計] 第Nサブネット分割＆インターフェースIP",
+      VLSM_DESIGN: "9. [応用] VLSM 容量設計・拡張余力・境界整合",
+      WILDCARD_ACL: "10. [応用] ワイルドカードマスク (OSPF / ACL)",
+      ROUTE_SUMMARY: "11. [応用] CIDR ルート集約 (Route Summarization)",
+      IP_TROUBLESHOOT: "12. [応用] Bad Mask ＆ ゲートウェイ設定トラブル診断"
     },
     scopes: {
-      ALL: "混合 (/8 〜 /30) - CCNA本番比率",
+      ALL: "混合 (/8 〜 /30) - 全範囲バランス",
       CLASS_C: "クラス C (/24 〜 /30) - 基礎固め",
       CLASS_B: "クラス B (/16 〜 /23) - 頻出・要注意",
       CLASS_A: "クラス A (/8 〜 /15) - 応用難問"
     },
     modes: {
-      INPUT: "実戦試験モード (入力 / 選択肢)",
+      INPUT: "実践入力・選択モード",
       FLASHCARD: "暗算フラッシュカード (スペースで解答表示)"
     },
     placeholders: {
@@ -827,7 +830,7 @@ const I18N = {
     resRevealed: "💡 答えと解説",
     resCorrect: "🎉 正解！",
     resWrong: "❌ 不正解 (あなたの回答: {val})",
-    cheatTitle: "📖 CCNA 必須：マジックナンバー速算・ワイルドカード・借用ビット対照表",
+    cheatTitle: "📖 IPv4 マジックナンバー速算・ワイルドカード・借用ビット対照表",
     cheatOpen: "▼ クリックして展開",
     cheatClose: "▲ クリックして閉じる",
     cheatHeadCols: [
@@ -847,11 +850,12 @@ const I18N = {
       ["/15 | /23 | /31", ".254", "2", ".1", "2 (/31 RFC 3021) | 510 (/23) | 131,070 (/15)"],
       ["/8 | /16 | /24 | /32", ".255", "1", ".0", "1 (/32 Host) | 254 (/24) | 65,534 (/16) | 16,777,214 (/8)"]
     ],
-    cheatTip: `💡 <strong>CCNA 暗算＆ルーティング重要原則：</strong><br>` +
+    cheatTip: `💡 <strong>IPv4 サブネット暗算＆ルーティング重要原則：</strong><br>` +
       `1. <strong>着目オクテット (Interesting Octet) の特定</strong>：<code>/9〜/15</code> ➔ 第2オクテット、<code>/17〜/23</code> ➔ 第3オクテット、<code>/25〜/30</code> ➔ 第4オクテット。<br>` +
       `2. <strong>マジックナンバー＆ワイルドカード</strong>：<code>Magic ＝ 256 － マスク値</code>（増分幅）、<code>Wildcard ＝ 255 － マスク値 ＝ Magic － 1</code>。<br>` +
-      `3. <strong>CCNA ルーティング決定の黄金律</strong>：パケット転送先は <strong>Longest Prefix Match (最長一致: /32 ➔ /0)</strong> が最優先！ AD (管理距離) や Metric (メトリック) は最長一致の候補間で同プレフィックス長の場合にのみ比較されます。`,
-    shortcutHint: "ショートカット: [Enter] 送信 / 次の問題 | [Space] 答え・解説表示 | [A-D / 1-4] 選択肢入力 | CCNA目標: 1問15〜25秒",
+      `3. <strong>ルーティング経路選択の原則</strong>：パケット転送先は <strong>Longest Prefix Match (最長一致: /32 ➔ /0)</strong> が最優先！ AD (管理距離) や Metric (メトリック) は最長一致の候補間で同プレフィックス長の場合にのみ比較されます。`,
+    shortcutHint: "ショートカット: [Enter] 送信 / 次の問題 | [Space] 答え・解説表示 | [A-D / 1-4] 選択肢入力 | 目安タイム: 1問15〜25秒",
+    disclaimerNote: "※ 本ツールの問題はすべてアルゴリズムにより自動生成された独自の学習用演習であり、実際の試験問題ではありません。",
     octets: ["第 1 オクテット", "第 2 オクテット", "第 3 オクテット", "第 4 オクテット"],
     ordinal: (n) => `第 ${n}`,
     stepLabels: {
@@ -910,8 +914,8 @@ const I18N = {
       SAME_SUBNET: (ipA, ipB, prefix) => `ホスト A: <span class="highlight-ip">${ipA}/${prefix}</span> と ホスト B: <span class="highlight-ip">${ipB}/${prefix}</span> は<strong>同一サブネット内</strong>に存在しますか（ルータを経由せずに直接L2通信可能か）？`,
       LPM_TABLE: (destIp, cliTableHtml) => `以下のルーティングテーブルを参照してください。宛先 IP アドレス <span class="highlight-ip">${destIp}</span> 宛てのパケットを転送する際、ルータはどの経路を選択しますか？<br>${cliTableHtml}`,
       LPM_STATIC_CMD: (destIp) => `宛先 IP <span class="highlight-ip">${destIp}</span> へのトラフィックに対し、最も具体的（最長一致プレフィックス）にマッチする Cisco IOS 静的ルート設定コマンドはどれですか？`,
-      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `【シミュレーション課題】アドレスブロック <span class="highlight-ip">${baseNet}/${baseP}</span> を分割し、サブネットあたりの有効ホスト数を最大化しつつ、少なくとも <strong>${numSites}</strong> 箇所の新しい拠点を収容します。<strong>${nthStr}</strong> のサブネット（第1サブネットを先頭として計算）を使用し、インターフェース <code>${iface}</code> に割り当てる<strong>${isFirst ? '最初の有効ホスト IP' : '最後の有効ホスト IP'}</strong> を CIDR プレフィックス付き (IP/CIDR) で入力してください：`,
-      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `【シミュレーション課題】ネットワーク <span class="highlight-ip">${baseNet}/${baseP}</span> から <strong>/${targetP}</strong> のサブネットを切り出します。サブネット <code>${unavailStr}</code> はすでに割り当て済みまたは予約済みです。<strong>次に利用可能な /${targetP} サブネット</strong> を使用し、<code>${routerName}</code> に割り当てる<strong>${isFirst ? '最初の有効ホスト IP' : '最後の有効ホスト IP'}</strong> を CIDR プレフィックス付き (IP/CIDR) で入力してください：`,
+      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `【設計演習】アドレスブロック <span class="highlight-ip">${baseNet}/${baseP}</span> を分割し、サブネットあたりの有効ホスト数を最大化しつつ、少なくとも <strong>${numSites}</strong> 箇所の新しい拠点を収容します。<strong>${nthStr}</strong> のサブネット（第1サブネットを先頭として計算）を使用し、インターフェース <code>${iface}</code> に割り当てる<strong>${isFirst ? '最初の有効ホスト IP' : '最後の有効ホスト IP'}</strong> を CIDR プレフィックス付き (IP/CIDR) で入力してください：`,
+      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `【設計演習】ネットワーク <span class="highlight-ip">${baseNet}/${baseP}</span> から <strong>/${targetP}</strong> のサブネットを切り出します。サブネット <code>${unavailStr}</code> はすでに割り当て済みまたは予約済みです。<strong>次に利用可能な /${targetP} サブネット</strong> を使用し、<code>${routerName}</code> に割り当てる<strong>${isFirst ? '最初の有効ホスト IP' : '最後の有効ホスト IP'}</strong> を CIDR プレフィックス付き (IP/CIDR) で入力してください：`,
       VLSM_CLI_ALIGN: (poolStr, totalHosts, growthNote, isSvi) => `ネットワーク管理者は、アドレス空間 <code>${poolStr}</code> から <strong>${totalHosts}</strong> 台のホスト ${growthNote} を収容し、かつ未使用 IP を最小限に抑えるサブネットを割り当てる必要があります。${isSvi ? 'SVI インターフェース設定' : 'ネットワークとマスクの組み合わせ'}として有効かつ適切な Cisco IOS 設定はどれですか？`,
       vlsmGrowthNote: (baseUsers, pct) => pct > 0 ? `(現行ユーザー ${baseUsers} 名 ＋ 将来の拡張余力 ${pct}%)` : "",
       VLSM_LINK_GROWTH: (numRouters, extraIps, totalNeeded) => `ルータ ${numRouters} 台を接続するリンクにおいて、IP アドレスの消費を最小限に抑えつつ、将来の拡張用として少なくとも ${extraIps} 個の有効 IP アドレスを確保する必要があります（合計で有効ホスト IP が ${totalNeeded} 個以上必要）。有効な Cisco IOS 設定はどれですか？`,
@@ -955,7 +959,7 @@ const I18N = {
       magicStep2: (maskVal, magic) => `マジックナンバー（増分幅 / ブロックサイズ）＝ 256 － ${maskVal} ＝ <strong>${magic}</strong>（各サブネットは ${magic} ごとに区切られます）。`,
       magicStep3: (cur, maxMult, magic, factor) => `対象オクテットのIP値は <code>${cur}</code> です。${magic} の倍数の中で <code>${cur}</code> 以下の最大値は <strong>${maxMult}</strong> (${magic} × ${factor}) となります。`,
       magicStep4: (net, bc) => `<strong>${net}</strong> 〜 <strong>${bc}</strong>`,
-      trickyHostNote: (ip, prefix, net, bc) => `【CCNA頻出の罠】/${prefix}（≤ /23）では第4オクテットが <code>.0</code> や <code>.255</code> でも、ホスト部全体がオール0（${net}）やオール1（${bc}）でなければ<strong>正当な有効ユニキャストホスト IP</strong> です！`,
+      trickyHostNote: (ip, prefix, net, bc) => `【ポイント】/${prefix}（≤ /23）では第4オクテットが <code>.0</code> や <code>.255</code> でも、ホスト部全体がオール0（${net}）やオール1（${bc}）でなければ<strong>有効なユニキャストホスト IP</strong> として使用できます。`,
       validHostsH: (prefix, h) => `32 － /${prefix} ＝ <strong>${h} ビット</strong>（ホスト部のビット数）`,
       validHostsFormula: (h, hosts) => `2^${h} － 2 ＝ <strong>${hosts}</strong> 個（ネットワークアドレスとブロードキャストアドレスの2個を除外）`,
       subnetCountS: (baseP, newP, s) => `新マスク /${newP} － 元マスク /${baseP} ＝ <strong>${s} ビット</strong>（借用サブネットビット数 S）`,
@@ -983,7 +987,7 @@ const I18N = {
       simBlockText: (octName, magic) => `着目オクテットは <strong>${octName}</strong> で、マジックナンバー（サブネット増分幅）は <strong>${magic}</strong> です。`,
       simTargetText: (nthStr, subNet, subBc, firstH, lastH, finalAns) => `対象の<strong>${nthStr}</strong>サブネット: ネットワーク <strong>${subNet}</strong> 〜 ブロードキャスト <strong>${subBc}</strong>。有効ホスト範囲は ${firstH} 〜 ${lastH} であり、設定すべき値は <strong><code>${finalAns}</code></strong> です。`,
       vlsmReqText: (totalHosts, h, usable, optP, optMask) => `${totalHosts} 台のホストを収容するには 2^H － 2 ≥ ${totalHosts} を満たす必要があり、<strong>H ＝ ${h} ビット</strong> (有効ホスト数: 2^${h} － 2 ＝ ${usable}) が必要です。最適なプレフィックス長は 32 － ${h} ＝ <strong>/${optP}</strong> (マスク: <code>${optMask}</code>) となります。`,
-      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `【CCNAの罠・境界不整合】<code>${badNet}/${optP}</code> はマジックナンバー (${magic}) の倍数境界に合致していません。正しいサブネットの開始境界は <code>${actualBase}/${optP}</code> です。`,
+      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `【注意点・境界不整合】<code>${badNet}/${optP}</code> はマジックナンバー (${magic}) の倍数境界に合致していません。正しいサブネットの開始境界は <code>${actualBase}/${optP}</code> です。`,
       vlsmLinkText: (numRouters, extraIps, totalNeeded, optP, optMask, usable) => `ルータ ${numRouters} 台 ＋ 拡張用 ${extraIps} IP ＝ 合計 ${totalNeeded} 個以上の有効 IP が必要です。2^H － 2 ≥ ${totalNeeded} より最適なマスクは <strong>/${optP}</strong> (<code>${optMask}</code>、有効ホスト数: ${usable}) となります。`,
       wcCalcStep1: (mask, wc) => `ワイルドカードマスク ＝ 255.255.255.255 － サブネットマスク (<code>${mask}</code>) ＝ <strong><code>${wc}</code></strong>`,
       wcCalcStep2: (octName, magic, wcByte) => `着目オクテット <strong>${octName}</strong> のワイルドカード値 ＝ マジックナンバー (${magic}) － 1 ＝ <strong>${wcByte}</strong> (255 － マスク値)`,
@@ -1010,7 +1014,7 @@ const I18N = {
   },
 
   en: {
-    appBadge: "CCNA Exam Drill v3.0",
+    appBadge: "Subnet Practice Lab v3.0.1",
     labelStreak: "Streak",
     labelTotal: "Total",
     labelAccuracy: "Accuracy",
@@ -1021,8 +1025,8 @@ const I18N = {
     timerBtnOn: "⏱ Timer: ON",
     timerDisplayOff: "OFF",
     categories: {
-      ALL: "All Mixed (CCNA Exam Level - Recommended)",
-      EXAM_HARD: "★ CCNA Real Exam Scenarios Only (7-12)",
+      ALL: "All Mixed (Comprehensive - Recommended)",
+      EXAM_HARD: "★ Applied Networking Scenarios (7-12)",
       CORE_DRILL: "⚡ Speed Math Fundamentals Only (1-6)",
       NET_ID: "1. Network Address (Network ID)",
       BROADCAST: "2. Directed Broadcast Address",
@@ -1030,21 +1034,21 @@ const I18N = {
       MASK_CONVERT: "4. Mask / CIDR / Binary Conversion",
       VALID_HOSTS: "5. Usable Host & Subnet Count",
       SAME_SUBNET: "6. Same Subnet Check (L2 Direct Ping)",
-      LPM_ROUTING: "7. [Exam] Longest Prefix Match (Routing Table)",
-      SIM_SUBNET_LAB: "8. [SIM Lab] Nth Subnet & Interface IP",
-      VLSM_DESIGN: "9. [Exam] VLSM Capacity, Growth & Alignment",
-      WILDCARD_ACL: "10. [Exam] Wildcard Mask & OSPF / ACL",
-      ROUTE_SUMMARY: "11. [Exam] CIDR Route Summarization",
-      IP_TROUBLESHOOT: "12. [Exam] IOS Bad Mask & Gateway Troubleshoot"
+      LPM_ROUTING: "7. [Applied] Longest Prefix Match (Routing Table)",
+      SIM_SUBNET_LAB: "8. [Design] Nth Subnet & Interface IP",
+      VLSM_DESIGN: "9. [Applied] VLSM Capacity, Growth & Alignment",
+      WILDCARD_ACL: "10. [Applied] Wildcard Mask & OSPF / ACL",
+      ROUTE_SUMMARY: "11. [Applied] CIDR Route Summarization",
+      IP_TROUBLESHOOT: "12. [Applied] Bad Mask & Gateway Troubleshoot"
     },
     scopes: {
-      ALL: "Mixed (/8 ~ /30) - CCNA Exam Weight",
+      ALL: "Mixed (/8 ~ /30) - Balanced Scope",
       CLASS_C: "Class C (/24 ~ /30) - Fundamentals",
-      CLASS_B: "Class B (/16 ~ /23) - High Exam Weight",
+      CLASS_B: "Class B (/16 ~ /23) - Multi-Octet Focus",
       CLASS_A: "Class A (/8 ~ /15) - Advanced Scenarios"
     },
     modes: {
-      INPUT: "Real Exam Mode (Input / Multiple Choice)",
+      INPUT: "Interactive Practice Mode (Input / Choice)",
       FLASHCARD: "Flashcard Mental Math (Space to Reveal)"
     },
     placeholders: {
@@ -1065,7 +1069,7 @@ const I18N = {
     resRevealed: "💡 Solution Revealed",
     resCorrect: "🎉 Correct!",
     resWrong: "❌ Incorrect (Your input: {val})",
-    cheatTitle: "📖 CCNA Cheat Sheet: Magic Number, Wildcard & Subnetting Chart",
+    cheatTitle: "📖 IPv4 Cheat Sheet: Magic Number, Wildcard & Subnetting Chart",
     cheatOpen: "▼ Click to expand",
     cheatClose: "▲ Click to collapse",
     cheatHeadCols: [
@@ -1085,11 +1089,12 @@ const I18N = {
       ["/15 | /23 | /31", ".254", "2", ".1", "2 (/31 RFC 3021) | 510 (/23) | 131,070 (/15)"],
       ["/8 | /16 | /24 | /32", ".255", "1", ".0", "1 (/32 Host) | 254 (/24) | 65,534 (/16) | 16,777,214 (/8)"]
     ],
-    cheatTip: `💡 <strong>CCNA Mental Math & Routing Golden Rules:</strong><br>` +
+    cheatTip: `💡 <strong>IPv4 Mental Math & Routing Core Rules:</strong><br>` +
       `1. <strong>Identify Interesting Octet</strong>: <code>/9~/15</code> ➔ 2nd octet, <code>/17~/23</code> ➔ 3rd octet, <code>/25~/30</code> ➔ 4th octet.<br>` +
       `2. <strong>Magic Number & Wildcard</strong>: <code>Magic = 256 - Mask Byte</code> (Block Size), <code>Wildcard = 255 - Mask Byte = Magic - 1</code>.<br>` +
-      `3. <strong>CCNA Routing Golden Rule</strong>: Packet forwarding strictly follows <strong>Longest Prefix Match (/32 ➔ /0)</strong> first! Administrative Distance (AD) and Metric are evaluated only among routes with identical prefix length.`,
+      `3. <strong>Routing Path Selection Rule</strong>: Packet forwarding strictly follows <strong>Longest Prefix Match (/32 ➔ /0)</strong> first! Administrative Distance (AD) and Metric are evaluated only among routes with identical prefix length.`,
     shortcutHint: "Shortcuts: [Enter] Submit / Next Question | [Space] Reveal Solution | [A-D / 1-4] Multiple Choice | Target: 15-25s per question",
+    disclaimerNote: "Note: All exercises are algorithmically generated on the fly for networking study and contain zero actual certification exam items.",
     octets: ["1st Octet", "2nd Octet", "3rd Octet", "4th Octet"],
     ordinal: (n) => {
       const s = ['th', 'st', 'nd', 'rd'];
@@ -1152,8 +1157,8 @@ const I18N = {
       SAME_SUBNET: (ipA, ipB, prefix) => `Are Host A: <span class="highlight-ip">${ipA}/${prefix}</span> and Host B: <span class="highlight-ip">${ipB}/${prefix}</span> on the <strong>same subnet</strong> (can they communicate directly at Layer 2 without a router)?`,
       LPM_TABLE: (destIp, cliTableHtml) => `Refer to the routing table below. Which route does the router select to forward a packet destined to <span class="highlight-ip">${destIp}</span>?<br>${cliTableHtml}`,
       LPM_STATIC_CMD: (destIp) => `A packet is destined for <span class="highlight-ip">${destIp}</span>. Which Cisco IOS static route command creates the most specific matching path?`,
-      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `[SIM LAB] Subnet the address block <span class="highlight-ip">${baseNet}/${baseP}</span> to support at least <strong>${numSites}</strong> new sites while maximizing usable hosts per subnet. Using the <strong>${nthStr}</strong> subnet (starting from subnet #1 at the zero subnet), enter the <strong>${isFirst ? 'first usable' : 'last usable'}</strong> IPv4 address with CIDR prefix (IP/CIDR) for interface <code>${iface}</code>:`,
-      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `[SIM LAB] Carve <strong>/${targetP}</strong> subnets from <span class="highlight-ip">${baseNet}/${baseP}</span>. Subnet(s) <code>${unavailStr}</code> are already reserved or assigned. Using the <strong>next available /${targetP} subnet</strong>, enter the <strong>${isFirst ? 'first usable' : 'last usable'}</strong> IPv4 address with CIDR prefix (IP/CIDR) for <code>${routerName}</code>:`,
+      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `[Design Lab] Subnet the address block <span class="highlight-ip">${baseNet}/${baseP}</span> to support at least <strong>${numSites}</strong> new sites while maximizing usable hosts per subnet. Using the <strong>${nthStr}</strong> subnet (starting from subnet #1 at the zero subnet), enter the <strong>${isFirst ? 'first usable' : 'last usable'}</strong> IPv4 address with CIDR prefix (IP/CIDR) for interface <code>${iface}</code>:`,
+      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `[Design Lab] Carve <strong>/${targetP}</strong> subnets from <span class="highlight-ip">${baseNet}/${baseP}</span>. Subnet(s) <code>${unavailStr}</code> are already reserved or assigned. Using the <strong>next available /${targetP} subnet</strong>, enter the <strong>${isFirst ? 'first usable' : 'last usable'}</strong> IPv4 address with CIDR prefix (IP/CIDR) for <code>${routerName}</code>:`,
       VLSM_CLI_ALIGN: (poolStr, totalHosts, growthNote, isSvi) => `A network engineer must allocate a subnet from <code>${poolStr}</code> to support <strong>${totalHosts}</strong> hosts ${growthNote}, while minimizing wasted IP addresses. Which ${isSvi ? 'SVI interface configuration command' : 'network and subnet mask selection'} is valid?`,
       vlsmGrowthNote: (baseUsers, pct) => pct > 0 ? `(${baseUsers} current users + ${pct}% future growth)` : "",
       VLSM_LINK_GROWTH: (numRouters, extraIps, totalNeeded) => `An inter-router link connecting ${numRouters} routers must be configured: consume as few IP addresses as possible while reserving at least ${extraIps} additional usable IP addresses for future expansion (total usable hosts ≥ ${totalNeeded}). Which configuration is valid?`,
@@ -1197,7 +1202,7 @@ const I18N = {
       magicStep2: (maskVal, magic) => `Magic Number (Block Size / Increment) = 256 - ${maskVal} = <strong>${magic}</strong> (Subnets increment in steps of ${magic}).`,
       magicStep3: (cur, maxMult, magic, factor) => `The interesting octet IP value is <code>${cur}</code>. The highest multiple of ${magic} that is ≤ ${cur} is <strong>${maxMult}</strong> (${magic} × ${factor}).`,
       magicStep4: (net, bc) => `<strong>${net}</strong> to <strong>${bc}</strong>`,
-      trickyHostNote: (ip, prefix, net, bc) => `[CCNA Exam Trap] On /${prefix} (≤ /23), an address ending in <code>.0</code> or <code>.255</code> is a <strong>valid unicast host IP</strong> as long as all host bits are neither all-0s (${net}) nor all-1s (${bc})!`,
+      trickyHostNote: (ip, prefix, net, bc) => `[Key Concept] On /${prefix} (≤ /23), an address ending in <code>.0</code> or <code>.255</code> is a <strong>valid unicast host IP</strong> whenever all host bits are neither all-0s (${net}) nor all-1s (${bc}).`,
       validHostsH: (prefix, h) => `32 - /${prefix} = <strong>${h} bits</strong> (Host Bits H)`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> usable hosts (excluding Network ID and Broadcast Address)`,
       subnetCountS: (baseP, newP, s) => `New prefix /${newP} - Base prefix /${baseP} = <strong>${s} borrowed subnet bits</strong> (S)`,
@@ -1225,7 +1230,7 @@ const I18N = {
       simBlockText: (octName, magic) => `The interesting octet is <strong>${octName}</strong>, with a Magic Number (block size) of <strong>${magic}</strong>.`,
       simTargetText: (nthStr, subNet, subBc, firstH, lastH, finalAns) => `Target <strong>${nthStr}</strong> subnet: Network <strong>${subNet}</strong> to Broadcast <strong>${subBc}</strong>. Usable host range is ${firstH} - ${lastH}. The target configuration value is <strong><code>${finalAns}</code></strong>.`,
       vlsmReqText: (totalHosts, h, usable, optP, optMask) => `To support ${totalHosts} hosts, we require 2^H - 2 ≥ ${totalHosts}, yielding <strong>H = ${h} host bits</strong> (usable: 2^${h} - 2 = ${usable}). The optimal prefix length is 32 - ${h} = <strong>/${optP}</strong> (Mask: <code>${optMask}</code>).`,
-      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `[CCNA Exam Trap: Subnet Alignment] <code>${badNet}/${optP}</code> is invalid because it does not align with the Magic Number (${magic}) block boundary. The valid subnet starts at <code>${actualBase}/${optP}</code>.`,
+      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `[Boundary Alignment Pitfall] <code>${badNet}/${optP}</code> is invalid because it does not align with the Magic Number (${magic}) block boundary. The valid subnet starts at <code>${actualBase}/${optP}</code>.`,
       vlsmLinkText: (numRouters, extraIps, totalNeeded, optP, optMask, usable) => `${numRouters} router IPs + ${extraIps} expansion IPs require at least ${totalNeeded} usable host addresses. 2^H - 2 ≥ ${totalNeeded} dictates <strong>/${optP}</strong> (<code>${optMask}</code>, supporting ${usable} usable hosts).`,
       wcCalcStep1: (mask, wc) => `Wildcard Mask = 255.255.255.255 - Subnet Mask (<code>${mask}</code>) = <strong><code>${wc}</code></strong>`,
       wcCalcStep2: (octName, magic, wcByte) => `Interesting octet <strong>${octName}</strong> wildcard byte = Magic Number (${magic}) - 1 = <strong>${wcByte}</strong> (255 - mask byte).`,
@@ -1252,7 +1257,7 @@ const I18N = {
   },
 
   zh: {
-    appBadge: "CCNA 真题特训 v3.0",
+    appBadge: "IPv4 子网实战练习 v3.0.1",
     labelStreak: "连续答对",
     labelTotal: "已练题数",
     labelAccuracy: "正确率",
@@ -1263,8 +1268,8 @@ const I18N = {
     timerBtnOn: "⏱ 计时器: 开启",
     timerDisplayOff: "关闭",
     categories: {
-      ALL: "全部题型混合 (CCNA 真题标准・推荐)",
-      EXAM_HARD: "★ CCNA 真题实战场景专练 (7-12)",
+      ALL: "全部题型混合 (综合进阶・推荐)",
+      EXAM_HARD: "★ 综合网络工程场景专练 (7-12)",
       CORE_DRILL: "⚡ 心算・基础极速特训 (1-6)",
       NET_ID: "1. 网络地址 (Network ID)",
       BROADCAST: "2. 定向广播地址 (Directed Broadcast)",
@@ -1272,21 +1277,21 @@ const I18N = {
       MASK_CONVERT: "4. 掩码 / CIDR / 二进制转换",
       VALID_HOSTS: "5. 可用主机数与子网数",
       SAME_SUBNET: "6. 同子网判断 (L2 Direct Ping)",
-      LPM_ROUTING: "7. [真题] 最长前缀匹配 (LPM / 路由表)",
-      SIM_SUBNET_LAB: "8. [实验题] 第N个子网与接口 IP 分配",
-      VLSM_DESIGN: "9. [真题] VLSM 规划・容量・扩容冗余・边界对齐",
-      WILDCARD_ACL: "10. [真题] 反掩码 / 通配符 (OSPF / ACL)",
-      ROUTE_SUMMARY: "11. [真题] CIDR 路由汇总 (Route Summarization)",
-      IP_TROUBLESHOOT: "12. [真题] IOS Bad Mask 与默认网关排错"
+      LPM_ROUTING: "7. [进阶] 最长前缀匹配 (LPM / 路由表)",
+      SIM_SUBNET_LAB: "8. [规划] 第N个子网划分与接口 IP 分配",
+      VLSM_DESIGN: "9. [进阶] VLSM 容量规划・扩容冗余・边界对齐",
+      WILDCARD_ACL: "10. [进阶] 反掩码 / 通配符 (OSPF / ACL)",
+      ROUTE_SUMMARY: "11. [进阶] CIDR 路由汇总 (Route Summarization)",
+      IP_TROUBLESHOOT: "12. [进阶] Bad Mask 与默认网关配置排错"
     },
     scopes: {
-      ALL: "混合 (/8 ~ /30) - CCNA 真题权重",
+      ALL: "混合 (/8 ~ /30) - 全范围均衡",
       CLASS_C: "Class C (/24 ~ /30) - 基础熟练",
       CLASS_B: "Class B (/16 ~ /23) - 高频易错",
       CLASS_A: "Class A (/8 ~ /15) - 复杂场景"
     },
     modes: {
-      INPUT: "实战考试模式 (输入 / 单选)",
+      INPUT: "交互练习模式 (输入 / 单选)",
       FLASHCARD: "心算翻牌模式 (按空格揭晓答案)"
     },
     placeholders: {
@@ -1307,7 +1312,7 @@ const I18N = {
     resRevealed: "💡 查看解析",
     resCorrect: "🎉 回答正确！",
     resWrong: "❌ 回答错误 (你的输入: {val})",
-    cheatTitle: "📖 CCNA 必备：魔术数字速算・反掩码・借位对照表",
+    cheatTitle: "📖 IPv4 魔术数字速算・反掩码・借位对照表",
     cheatOpen: "▼ 点击展开",
     cheatClose: "▲ 点击收起",
     cheatHeadCols: [
@@ -1327,11 +1332,12 @@ const I18N = {
       ["/15 | /23 | /31", ".254", "2", ".1", "2 (/31 RFC 3021) | 510 (/23) | 131,070 (/15)"],
       ["/8 | /16 | /24 | /32", ".255", "1", ".0", "1 (/32 单机) | 254 (/24) | 65,534 (/16) | 16,777,214 (/8)"]
     ],
-    cheatTip: `💡 <strong>CCNA 极速心算与路由转发黄金法则：</strong><br>` +
+    cheatTip: `💡 <strong>IPv4 极速心算与路由转发核心法则：</strong><br>` +
       `1. <strong>定位关键字节 (Interesting Octet)</strong>：<code>/9~/15</code> ➔ 第 2 字节，<code>/17~/23</code> ➔ 第 3 字节，<code>/25~/30</code> ➔ 第 4 字节。<br>` +
       `2. <strong>魔术数字与反掩码公式</strong>：<code>魔术数字 = 256 - 掩码字节</code> (块大小/步长)，<code>反掩码 = 255 - 掩码字节 = 魔术数字 - 1</code>。<br>` +
-      `3. <strong>CCNA 路由转发铁律</strong>：路由器转发首先严格遵循 <strong>最长前缀匹配 (Longest Prefix Match: /32 ➔ /0)</strong>！管理距离 (AD) 和度量值 (Metric) 仅在相同掩码长度的候选路由间比较。`,
-    shortcutHint: "快捷键: [Enter] 提交或下一题 | [Space] 翻牌揭晓 | [A-D / 1-4] 快速单选 | CCNA 目标用时: 每题 15~25 秒",
+      `3. <strong>路由转发核心原则</strong>：路由器转发首先严格遵循 <strong>最长前缀匹配 (Longest Prefix Match: /32 ➔ /0)</strong>！管理距离 (AD) 和度量值 (Metric) 仅在相同掩码长度的候选路由间比较。`,
+    shortcutHint: "快捷键: [Enter] 提交或下一题 | [Space] 翻牌揭晓 | [A-D / 1-4] 快速单选 | 建议熟练度目标: 每题 15~25 秒",
+    disclaimerNote: "注：本站所有练习题均由算法实时随机生成，仅供网络技术学习交流，不包含任何真实认证考题。",
     octets: ["第 1 字节", "第 2 字节", "第 3 字节", "第 4 字节"],
     ordinal: (n) => `第 ${n} 个`,
     stepLabels: {
@@ -1390,8 +1396,8 @@ const I18N = {
       SAME_SUBNET: (ipA, ipB, prefix) => `主机 A: <span class="highlight-ip">${ipA}/${prefix}</span> 与 主机 B: <span class="highlight-ip">${ipB}/${prefix}</span> <strong>是否在同一子网</strong>（能否在不经过路由器的情况下进行二层直接通信）？`,
       LPM_TABLE: (destIp, cliTableHtml) => `参考以下路由器路由表输出。当路由器转发目的地为 <span class="highlight-ip">${destIp}</span> 的数据包时，将匹配并选择哪条路由？<br>${cliTableHtml}`,
       LPM_STATIC_CMD: (destIp) => `数据包目的地为 <span class="highlight-ip">${destIp}</span>。下列哪条 Cisco IOS 静态路由配置命令能提供匹配度最高（前缀最长）的路由路径？`,
-      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `【综合实验题】对地址块 <span class="highlight-ip">${baseNet}/${baseP}</span> 进行子网划分，在满足至少 <strong>${numSites}</strong> 个新分支机构需求的同时最大化每个子网的可用主机数。使用<strong>${nthStr}</strong>子网（从子网 #1 即起始零子网开始计），为接口 <code>${iface}</code> 配置<strong>${isFirst ? '首个可用主机 IP' : '末个可用主机 IP'}</strong>，请输入带 CIDR 前缀的格式 (IP/CIDR)：`,
-      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `【综合实验题】从网络 <span class="highlight-ip">${baseNet}/${baseP}</span> 中划分出 <strong>/${targetP}</strong> 子网。已知子网 <code>${unavailStr}</code> 已被占用或保留。使用<strong>下一个未被分配的 /${targetP} 可用子网</strong>，为 <code>${routerName}</code> 配置<strong>${isFirst ? '首个可用主机 IP' : '末个可用主机 IP'}</strong>，请输入带 CIDR 前缀的格式 (IP/CIDR)：`,
+      SIM_SITES: (baseNet, baseP, numSites, nthStr, isFirst, iface) => `【网络规划练习】对地址块 <span class="highlight-ip">${baseNet}/${baseP}</span> 进行子网划分，在满足至少 <strong>${numSites}</strong> 个新分支机构需求的同时最大化每个子网的可用主机数。使用<strong>${nthStr}</strong>子网（从子网 #1 即起始零子网开始计），为接口 <code>${iface}</code> 配置<strong>${isFirst ? '首个可用主机 IP' : '末个可用主机 IP'}</strong>，请输入带 CIDR 前缀的格式 (IP/CIDR)：`,
+      SIM_NEXT_AVAIL: (baseNet, baseP, targetP, unavailStr, isFirst, routerName) => `【网络规划练习】从网络 <span class="highlight-ip">${baseNet}/${baseP}</span> 中划分出 <strong>/${targetP}</strong> 子网。已知子网 <code>${unavailStr}</code> 已被占用或保留。使用<strong>下一个未被分配的 /${targetP} 可用子网</strong>，为 <code>${routerName}</code> 配置<strong>${isFirst ? '首个可用主机 IP' : '末个可用主机 IP'}</strong>，请输入带 CIDR 前缀的格式 (IP/CIDR)：`,
       VLSM_CLI_ALIGN: (poolStr, totalHosts, growthNote, isSvi) => `网络工程师需要从地址池 <code>${poolStr}</code> 中分配一个子网，以满足 <strong>${totalHosts}</strong> 台主机 ${growthNote} 的接入需求，并最大限度减少 IP 地址浪费。下列哪项 ${isSvi ? 'SVI 接口配置命令' : '网络号与子网掩码组合'} 是合法且正确的？`,
       vlsmGrowthNote: (baseUsers, pct) => pct > 0 ? `(当前 ${baseUsers} 名用户 ＋ ${pct}% 扩容冗余)` : "",
       VLSM_LINK_GROWTH: (numRouters, extraIps, totalNeeded) => `需为连接 ${numRouters} 台路由器的互联链路配置子网：在尽量节省 IP 地址的同时，必须预留至少 ${extraIps} 个可用 IP 地址以备未来扩展（要求可用主机 IP 总数 ≥ ${totalNeeded}）。下列哪项配置是合法正确的？`,
@@ -1435,7 +1441,7 @@ const I18N = {
       magicStep2: (maskVal, magic) => `魔术数字（块大小 / 子网步长）= 256 - ${maskVal} = <strong>${magic}</strong>（即每个子网按 ${magic} 递增）。`,
       magicStep3: (cur, maxMult, magic, factor) => `关键字节的 IP 值为 <code>${cur}</code>。在 ${magic} 的整数倍中，≤ ${cur} 的最大倍数是 <strong>${maxMult}</strong> (${magic} × ${factor})。`,
       magicStep4: (net, bc) => `<strong>${net}</strong> 至 <strong>${bc}</strong>`,
-      trickyHostNote: (ip, prefix, net, bc) => `【CCNA 高频陷阱】在 /${prefix}（≤ /23）掩码下，末尾为 <code>.0</code> 或 <code>.255</code> 的地址只要不是全 0 网络号（${net}）或全 1 广播号（${bc}），就是<strong>完全合法的单播主机 IP</strong>！`,
+      trickyHostNote: (ip, prefix, net, bc) => `【易错点提示】在 /${prefix}（≤ /23）掩码下，末尾为 <code>.0</code> 或 <code>.255</code> 的地址只要不是全 0 网络号（${net}）或全 1 广播号（${bc}），就是<strong>完全合法的单播主机 IP</strong>。`,
       validHostsH: (prefix, h) => `32 - /${prefix} = <strong>${h} 位</strong>（主机位长度 H）`,
       validHostsFormula: (h, hosts) => `2^${h} - 2 = <strong>${hosts}</strong> 个可用地址（减去网络地址与广播地址共 2 个）`,
       subnetCountS: (baseP, newP, s) => `新子网前缀 /${newP} - 原前缀 /${baseP} = <strong>${s} 位</strong>（借用的子网位数 S）`,
@@ -1463,7 +1469,7 @@ const I18N = {
       simBlockText: (octName, magic) => `关键字节位于 <strong>${octName}</strong>，魔术数字（子网步长）为 <strong>${magic}</strong>。`,
       simTargetText: (nthStr, subNet, subBc, firstH, lastH, finalAns) => `目标<strong>${nthStr}</strong>子网：网络号 <strong>${subNet}</strong> 至 广播地址 <strong>${subBc}</strong>。可用主机范围为 ${firstH} 至 ${lastH}，最终配置答案为 <strong><code>${finalAns}</code></strong>。`,
       vlsmReqText: (totalHosts, h, usable, optP, optMask) => `容纳 ${totalHosts} 台主机需满足 2^H - 2 ≥ ${totalHosts}，得到主机位 <strong>H = ${h} 位</strong>（可用主机数: 2^${h} - 2 = ${usable}）。最优前缀长度为 32 - ${h} = <strong>/${optP}</strong>（掩码: <code>${optMask}</code>）。`,
-      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `【CCNA 考试陷阱：边界对齐】<code>${badNet}/${optP}</code> 不是魔术数字 (${magic}) 的合法整数倍边界。该子网的正确起始网络地址应为 <code>${actualBase}/${optP}</code>。`,
+      vlsmTrapAlignText: (badNet, optP, magic, actualBase) => `【易错点：子网边界对齐】<code>${badNet}/${optP}</code> 不是魔术数字 (${magic}) 的合法整数倍边界。该子网的正确起始网络地址应为 <code>${actualBase}/${optP}</code>。`,
       vlsmLinkText: (numRouters, extraIps, totalNeeded, optP, optMask, usable) => `${numRouters} 台路由器 ＋ 预留 ${extraIps} 个 IP，共需至少 ${totalNeeded} 个可用主机地址。由 2^H - 2 ≥ ${totalNeeded} 计算得出最优前缀为 <strong>/${optP}</strong> (<code>${optMask}</code>，容纳 ${usable} 个可用地址)。`,
       wcCalcStep1: (mask, wc) => `反掩码 (Wildcard) = 255.255.255.255 - 子网掩码 (<code>${mask}</code>) = <strong><code>${wc}</code></strong>`,
       wcCalcStep2: (octName, magic, wcByte) => `关键字节 <strong>${octName}</strong> 反掩码字节 = 魔术数字 (${magic}) - 1 = <strong>${wcByte}</strong> (即 255 - 掩码字节)。`,
@@ -1660,14 +1666,14 @@ function escapeHtml(text) {
 }
 
 /**
- * Pick prefix length (/8 ~ /30) weighted by CCNA 200-301 exam distribution
+ * Pick prefix length (/8 ~ /30) weighted by balanced multi-octet scope
  */
 function pickPrefix(scope) {
   if (scope === 'CLASS_C') return randInt(24, 30);
   if (scope === 'CLASS_B') return randInt(16, 23);
   if (scope === 'CLASS_A') return randInt(8, 15);
 
-  // Mixed (/8 ~ /30) weighted by real CCNA 200-301 frequency
+  // Mixed (/8 ~ /30) weighted by practical multi-octet balance
   const r = Math.random();
   if (r < 0.16) {
     // Class A (/8 ~ /15), extra weight on /8 and /12 (RFC 1918 & ACL favorites)
@@ -1729,7 +1735,7 @@ function generateValidHostIP(prefix, allowTrickyEdge = true) {
 
   if (prefix >= 31) return baseSub.firstHost;
 
-  // On /8 ~ /23, 25% chance to pick a valid unicast host ending in .255 or .0 (Q914 exam trap)
+  // On /8 ~ /23, 25% chance to pick a valid unicast host ending in .255 or .0
   if (allowTrickyEdge && prefix <= 23 && Math.random() < 0.25) {
     const use255 = Math.random() < 0.6;
     const candInt = use255
@@ -1750,7 +1756,7 @@ function generateValidHostIP(prefix, allowTrickyEdge = true) {
 }
 
 /**
- * Category Selection with CCNA 200-301 Exam Weighting
+ * Category Selection with Balanced Practice Weighting
  */
 function pickCategory(selectedCat) {
   const coreCats = ['NET_ID', 'BROADCAST', 'HOST_BOUNDS', 'MASK_CONVERT', 'VALID_HOSTS', 'SAME_SUBNET'];
@@ -1759,7 +1765,7 @@ function pickCategory(selectedCat) {
   if (selectedCat === 'CORE_DRILL') return pick(coreCats);
   if (selectedCat === 'EXAM_HARD') return pick(examCats);
   if (selectedCat === 'ALL') {
-    // 65% real CCNA scenario questions (7-12), 35% upgraded core speed drills (1-6)
+    // 65% applied networking scenario questions (7-12), 35% upgraded core speed drills (1-6)
     return Math.random() < 0.65 ? pick(examCats) : pick(coreCats);
   }
   return selectedCat;
@@ -1943,9 +1949,9 @@ function buildLpmQuestion(q, scope) {
   else if (scope === 'CLASS_C') winP = randInt(26, 30);
   else {
     const r = Math.random();
-    if (r < 0.16 && q.lpmMode === 'TABLE') winP = 32; // Host route /32 (Q1360)
-    else if (r < 0.45) winP = randInt(20, 23);         // /20~/23 (Q1209)
-    else winP = randInt(26, 30);                       // /26~/30 (Q2, Q346, Q347, Q1174)
+    if (r < 0.16 && q.lpmMode === 'TABLE') winP = 32; // Host route /32
+    else if (r < 0.45) winP = randInt(20, 23);         // /20~/23
+    else winP = randInt(26, 30);                       // /26~/30
   }
 
   const destIp = generateValidHostIP(Math.min(winP, 30), true);
@@ -1971,7 +1977,7 @@ function buildLpmQuestion(q, scope) {
     ];
     q.reasonMode = 'DEFAULT';
   } else {
-    // Winner matches destIp with longest prefix, intentionally given higher AD (RIP/OSPF) to test AD trap (Q347, Q1360)
+    // Winner matches destIp with longest prefix, intentionally given higher AD (RIP/OSPF) to test AD trap
     const winSub = SubnetUtils.calc(destIp, winP);
     const broadP1 = Math.max(8, winP - randInt(2, 4));
     const broadSub1 = SubnetUtils.calc(destIp, broadP1);
@@ -1979,12 +1985,12 @@ function buildLpmQuestion(q, scope) {
     const useZeroForP2 = (broadP2 >= broadP1);
     const broadSub2 = useZeroForP2 ? null : SubnetUtils.calc(destIp, broadP2);
 
-    // Non-matching LONGER prefix trap (/31 RFC 3021 Q346 or /32 host route Q1223 or +1/+2 prefix)
+    // Non-matching LONGER prefix trap
     let trapP;
     if (winP === 32) {
       trapP = 30;
     } else if (winP === 30) {
-      trapP = pick([31, 32]); // Classic Q346 /31 or Q1223 /32 trap!
+      trapP = pick([31, 32]); // Classic /31 or /32 trap!
     } else {
       trapP = Math.min(32, winP + randInt(1, 2));
     }
@@ -2036,7 +2042,7 @@ function buildLpmQuestion(q, scope) {
 }
 
 /**
- * 8. CCNA Simulation Lab: Nth Subnet & Interface Host Assignment (Q145, Q1058, Q1182, Q1337)
+ * 8. CCNA Simulation Lab: Nth Subnet & Interface Host Assignment
  */
 function buildSimLabQuestion(q, scope) {
   q.type = 'TEXT';
@@ -2054,7 +2060,7 @@ function buildSimLabQuestion(q, scope) {
     baseP = pick([24, 24, 25]);
     s = randInt(2, Math.min(5, 30 - baseP));
   } else {
-    // Include famous CCNA SIM combos: /16 -> /20 (Q1182), /19 -> /25 (Q1337), /24 -> /27 or /28 (Q145, Q1058), /8 -> /12
+    // Include common multi-octet subdivision patterns: /16 -> /20, /19 -> /25, /24 -> /27 or /28, /8 -> /12
     const preset = pick([
       [16, 4], [19, 6], [24, 3], [24, 4], [16, 3], [20, 4], [8, 4], [18, 4], [24, 5]
     ]);
@@ -2111,12 +2117,12 @@ function buildSimLabQuestion(q, scope) {
 }
 
 /**
- * 9. VLSM Capacity, Growth Buffer & Subnet Alignment Generator (Q35, Q37, Q129, Q476, Q904)
+ * 9. VLSM Capacity, Growth Buffer & Subnet Alignment Generator
  */
 function buildVlsmQuestion(q, scope) {
   const roll = Math.random();
   if (roll < 0.48) {
-    // Sub-mode A: CLI Subnet + Mask Selection with Misaligned Subnet ID Trap (Q35, Q476)
+    // Sub-mode A: CLI Subnet + Mask Selection with Misaligned Subnet ID Trap
     q.vlsmMode = 'CLI_ALIGN';
     q.type = 'MCQ';
     q.optionsProse = false;
@@ -2150,7 +2156,7 @@ function buildVlsmQuestion(q, scope) {
     const alignedNetInt = (poolSub.netInt + blockIdx * blockIps) >>> 0;
     const alignedSub = SubnetUtils.calc(SubnetUtils.intToIp(alignedNetInt), optP);
 
-    // Misaligned trap: shifted by half a block (e.g. .32 + 16 = .48 on /27, exact Q35 trap!)
+    // Misaligned trap: shifted by half a block
     const halfBlock = Math.pow(2, h - 1);
     const misalignedNet = SubnetUtils.intToIp((alignedNetInt + halfBlock) >>> 0);
     const smallSub = SubnetUtils.calc(alignedSub.network, optP + 1);
@@ -2191,13 +2197,13 @@ function buildVlsmQuestion(q, scope) {
       return { letter: letters[idx], text: o.text, isWin: o.isWin };
     });
   } else if (roll < 0.72) {
-    // Sub-mode B: Inter-Router Link + Growth Conservation (Q904)
+    // Sub-mode B: Inter-Router Link + Growth Conservation
     q.vlsmMode = 'LINK_GROWTH';
     q.type = 'MCQ';
     q.optionsProse = false;
 
     const scenarios = [
-      { routers: 2, extra: 2, optP: 29 },  // Exact Q904: 2 + 2 = 4 usable -> /29 (6 usable; /30 only has 2!)
+      { routers: 2, extra: 2, optP: 29 },  // Exact : 2 + 2 = 4 usable -> /29 (6 usable; /30 only has 2!)
       { routers: 2, extra: 0, optP: 30 },  // Pure P2P: 2 usable -> /30
       { routers: 2, extra: 5, optP: 28 },  // 2 + 5 = 7 usable -> /28 (14 usable; /29 only has 6!)
       { routers: 3, extra: 4, optP: 28 },  // 3 + 4 = 7 usable -> /28
@@ -2246,7 +2252,7 @@ function buildVlsmQuestion(q, scope) {
       return { letter: letters[idx], text: o.text, isWin: o.isWin };
     });
   } else {
-    // Sub-mode C: Multi-Floor / Growth % Optimal Dotted Mask Input (Q37, Q129)
+    // Sub-mode C: Multi-Floor / Growth % Optimal Dotted Mask Input
     q.vlsmMode = 'MASK_INPUT';
     q.type = 'TEXT';
     q.placeholderKey = 'mask';
@@ -2292,7 +2298,7 @@ function buildVlsmQuestion(q, scope) {
 }
 
 /**
- * 10. Wildcard Mask & OSPF / Extended ACL Generator (Q398, Q486, Q696, Q976, Q1369)
+ * 10. Wildcard Mask & OSPF / Extended ACL Generator
  */
 function buildWildcardQuestion(q, scope) {
   const roll = Math.random();
@@ -2309,7 +2315,7 @@ function buildWildcardQuestion(q, scope) {
     q.answer = q.sub.wildcard;
     q.acceptAnswers = [q.sub.wildcard];
   } else if (roll < 0.78) {
-    // Sub-mode B: Extended ACL CLI Statement Selection (Q976, Q696, Q999)
+    // Sub-mode B: Extended ACL CLI Statement Selection
     q.wcMode = 'ACL_CLI';
     q.type = 'MCQ';
     q.optionsProse = false;
@@ -2352,7 +2358,7 @@ function buildWildcardQuestion(q, scope) {
       return { letter: letters[idx], text: o.text };
     });
   } else {
-    // Sub-mode C: OSPF Wildcard Interface Matching (Q398)
+    // Sub-mode C: OSPF Wildcard Interface Matching
     q.wcMode = 'OSPF_IFACE';
     q.type = 'MCQ';
     q.optionsProse = false;
@@ -2390,13 +2396,13 @@ function buildWildcardQuestion(q, scope) {
 }
 
 /**
- * 11. CIDR Route Summarization / Supernetting Generator (Q34, Q129, Q391, Q1198)
+ * 11. CIDR Route Summarization / Supernetting Generator
  */
 function buildSummaryQuestion(q, scope) {
   q.type = 'TEXT';
   q.placeholderKey = 'ipCidr';
 
-  const k = Math.random() < 0.55 ? 2 : 1; // Summarize 4 contiguous blocks (55%) or 2 contiguous blocks (45%, Q1198)
+  const k = Math.random() < 0.55 ? 2 : 1; // Summarize 4 contiguous blocks (55%) or 2 contiguous blocks
   let sumP;
   if (scope === 'CLASS_A') sumP = randInt(8, 15 - k);
   else if (scope === 'CLASS_B') sumP = randInt(16, 23 - k);
@@ -2443,14 +2449,14 @@ function buildSummaryQuestion(q, scope) {
 }
 
 /**
- * 12. Cisco IOS Bad Mask & Gateway/Subnet Mismatch Troubleshooting Generator (Q14, Q16, Q53, Q109, Q506, Q1227)
+ * 12. Cisco IOS Bad Mask & Gateway/Subnet Mismatch Troubleshooting Generator
  */
 function buildTroubleshootQuestion(q, scope) {
   q.type = 'MCQ';
   const roll = Math.random();
 
   if (roll < 0.36) {
-    // Scenario A: Cisco IOS "Bad mask /XX for address ..." (Q16)
+    // Scenario A: Cisco IOS "Bad mask /XX for address ..."
     q.tsMode = 'BAD_MASK';
     q.optionsProse = true;
 
@@ -2467,7 +2473,7 @@ function buildTroubleshootQuestion(q, scope) {
     q.reasonOrder = reasonKeys;
     q.answer = letters[reasonKeys.indexOf(winKey)];
   } else if (roll < 0.76) {
-    // Scenario B: Host-to-Gateway / Mask / Overlap Troubleshooting (Q53, Q506, Q1227)
+    // Scenario B: Host-to-Gateway / Mask / Overlap Troubleshooting
     q.tsMode = 'MISMATCH';
     q.optionsProse = true;
 
@@ -2485,7 +2491,7 @@ function buildTroubleshootQuestion(q, scope) {
     q.faultType = pick(['PC_MASK', 'PC_GW', 'PC_IP', 'RTR_OVERLAP']);
 
     if (q.faultType === 'PC_MASK') {
-      // R1 Gi0/0 is at lastHost (upper half); PC1 IP is in lower half; PC1 mask is /rtrP+1 -> isolates gateway! (Q1227)
+      // R1 Gi0/0 is at lastHost (upper half); PC1 IP is in lower half; PC1 mask is /rtrP+1 -> isolates gateway!
       q.rtrIp = sub.lastHost;
       q.pcIp = SubnetUtils.intToIp((sub.netInt + 3) >>> 0);
       q.pcMask = tighterSub.mask;
@@ -2509,7 +2515,7 @@ function buildTroubleshootQuestion(q, scope) {
       q.pcGw = sub.firstHost;
       q.rtrGi01 = null;
     } else {
-      // R1 Gi0/1 overlaps with R1 Gi0/0 (Q53)!
+      // R1 Gi0/1 overlaps with R1 Gi0/0!
       q.rtrIp = sub.firstHost;
       q.pcIp = SubnetUtils.intToIp((sub.netInt + 4) >>> 0);
       q.pcMask = sub.mask;
@@ -2525,7 +2531,7 @@ function buildTroubleshootQuestion(q, scope) {
     q.fixOrder = fixKeys;
     q.answer = letters[fixKeys.indexOf(q.faultType)];
   } else {
-    // Scenario C: Valid Interface IP + Mask Selection (Q14 /30 P2P or Q109 Last Usable IP)
+    // Scenario C: Valid Interface IP + Mask Selection
     q.tsMode = 'VALID_CLI';
     q.optionsProse = false;
     q.isP2P30 = (scope === 'ALL' || scope === 'CLASS_C') && Math.random() < 0.48;
@@ -3166,6 +3172,8 @@ function updateLanguageUI() {
   document.getElementById('cheatSheetTitle').textContent = t.cheatTitle;
   document.getElementById('cheatSheetTip').innerHTML = t.cheatTip;
   document.getElementById('shortcutHint').textContent = t.shortcutHint;
+  const discEl = document.getElementById('disclaimerNote');
+  if (discEl) discEl.textContent = t.disclaimerNote;
   document.getElementById('targetAnswerLabel').textContent = t.targetAnswerLabel;
 
   const cheatContent = document.getElementById('cheatSheetContent');

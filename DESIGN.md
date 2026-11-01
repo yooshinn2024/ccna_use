@@ -1,8 +1,8 @@
-# CCNA Subnet Master v3.0.0 - System Architecture & Engineering Specification
+# CCNA Subnet Master v3.0.1 - System Architecture & Engineering Specification
 
-## 1. Vision & Exam Engineering Objectives
+## 1. Vision & Educational Engineering Objectives
 
-**CCNA Subnet Master** is a high-speed IPv4 subnetting drill engine and procedural exam simulation environment engineered specifically for Cisco Certified Network Associate (CCNA 200-301) candidates.
+**CCNA Subnet Master** is a high-speed IPv4 subnetting drill engine and procedural networking practice environment engineered specifically for networking students and Cisco Certified Network Associate (CCNA 200-301) candidates.
 
 ### 1.1 The CCNA 200-301 Time-Constraint Challenge
 * **Exam Reality**: The CCNA 200-301 exam presents approximately 100 questions within a 120-minute window, providing an average of ~72 seconds per item.
@@ -15,7 +15,7 @@
 
 ### 1.2 Limitations of Static Question Banks vs Procedural Generation
 * **Static Question Banks**: Encourage superficial pattern recognition and rote memorization rather than deep algorithmic understanding.
-* **Procedural Engine (v3.0.0)**: Procedurally synthesizes billions of unique, mathematically verified topologies, routing tables, and interface configurations on demand. Every drill is paired with a multi-step human mental math explanation based on Cisco's **Magic Number (Block Size)** method.
+* **Procedural Engine (v3.0.1)**: Procedurally synthesizes billions of unique, mathematically verified topologies, routing tables, and interface configurations on demand. Every drill is paired with a multi-step human mental math explanation based on Cisco's **Magic Number (Block Size)** method.
 
 ---
 
@@ -36,9 +36,9 @@
 |                      |                                               |                          |
 |   +------------------v-----------------------------------------------v----------------------+   |
 |   |                         Procedural Question Generation Engine                           |   |
-|   |   Suite 1: Core Speed Drills (1–6)         |   Suite 2: Real CCNA Scenarios (7–12)      |   |
-|   |   1. Network Address (.0/.255 traps)       |   7. Longest Prefix Match (show ip route)  |   |
-|   |   2. Directed Broadcast Address            |   8. CCNA Simulation Lab (Interface IP)    |   |
+|   |   Suite 1: Core Speed Drills (1–6)         |   Suite 2: Applied Networking Scenarios    |   |
+|   |   1. Network Address (.0/.255 pitfalls)    |   7. Longest Prefix Match (show ip route)  |   |
+|   |   2. Directed Broadcast Address            |   8. Multi-Site Subnet Design Lab          |   |
 |   |   3. Usable Host Bounds (DHCP Gateway)     |   9. VLSM Capacity & Alignment Planning    |   |
 |   |   4. Mask / CIDR / 32-Bit Binary           |   10. Wildcard Mask & OSPF / ACL Matching  |   |
 |   |   5. Usable Hosts (2^H-2) & Subnets (2^S)  |   11. CIDR Route Summarization             |   |
@@ -65,16 +65,16 @@
 
 ---
 
-## 3. Prefix Scope & Exam Distribution Model
+## 3. Prefix Scope & Practice Distribution Model
 
-The procedural generator samples prefixes across the IPv4 space according to real CCNA 200-301 exam weightings:
+The procedural generator samples prefixes across the IPv4 space according to a balanced scope reflecting practical networking and CCNA 200-301 syllabus topics:
 
-| Scope | Prefix Range | Focus Octet | Exam Representation & Weighting |
+| Scope | Prefix Range | Focus Octet | Practical Networking Distribution |
 | :--- | :--- | :--- | :--- |
 | **Class C** | `/24` ~ `/30` | 4th Octet | Core speed drills, branch office subnets, WAN point-to-point links. |
-| **Class B** | `/16` ~ `/23` | 3rd Octet | High-frequency exam target. Enterprise campus VLANs, multi-floor SVIs, `.0` and `.255` valid host address traps. |
+| **Class B** | `/16` ~ `/23` | 3rd Octet | High-frequency practical target. Enterprise campus VLANs, multi-floor SVIs, `.0` and `.255` valid host address pitfalls. |
 | **Class A** | `/8` ~ `/15` | 2nd Octet | Enterprise core backbones, ISP supernetting, large-scale route summarization. |
-| **Mixed Mode** | `/8` ~ `/30` | Multi-Octet | Dynamically weighted distribution matching CCNA 200-301 domain percentages. |
+| **Mixed Mode** | `/8` ~ `/30` | Multi-Octet | Balanced scope reflecting enterprise networking and CCNA 200-301 syllabus domains. |
 | **Edge Cases** | `/0`, `/31`, `/32` | Boundary Cases | Routing and ACL scenarios: `/0` default route (`0.0.0.0/0`), `/31` RFC 3021 point-to-point links (2 usable hosts, 0 network/broadcast IDs reserved), and `/32` host routes / loopback interfaces. |
 
 ---
@@ -154,9 +154,9 @@ $$\text{Decision} = \text{LPM (Most Specific Prefix Length)} \succ \text{Adminis
 * RIP (`R`): `120`
 * Gateway of Last Resort (`S*` / `0.0.0.0/0`): Match-all fallback when no specific route matches.
 
-#### Exam Trap Mechanics in LPM Drills
+#### Boundary Pitfalls in LPM Drills
 1. **LPM Overrides AD**: A candidate might see a Static Route (`AD 1`) for `10.1.0.0/16` and an OSPF Route (`AD 110`) for `10.1.1.0/24`. For destination `10.1.1.55`, the packet is forwarded via **OSPF** because `/24 > /16`, regardless of Administrative Distance.
-2. **Non-Matching `/31` & `/32` Routes**: Traps where a candidate assumes a `/32` host route matches because the first three octets look similar, but the 4th octet fails bitwise comparison.
+2. **Non-Matching `/31` & `/32` Routes**: Common boundary pitfalls where a learner assumes a `/32` host route matches because the first three octets look similar, but the 4th octet fails bitwise comparison.
 
 ---
 
@@ -184,7 +184,7 @@ Category 10 assesses inverse wildcard masks used in Cisco IOS OSPF configuration
 2. **Bitwise Wildcard Evaluation**:
    An IP address $\text{IP}_{\text{test}}$ matches an ACL/OSPF rule $(\text{IP}_{\text{rule}}, \text{Wildcard})$ if and only if:
    $$\left( \text{IP}_{\text{test}} \;\&\; (\sim \text{Wildcard}) \right) == \left( \text{IP}_{\text{rule}} \;\&\; (\sim \text{Wildcard}) \right)$$
-3. **OSPF Area Matching Simulation**:
+3. **OSPF Area Matching Evaluation**:
    The engine tests statements such as `network 172.16.16.0 0.0.7.255 area 0` to identify which interface IPs fall within the wildcard range (`172.16.16.0` through `172.16.23.255`).
 
 ---
@@ -201,7 +201,7 @@ Category 9 models enterprise multi-floor VLAN capacity planning:
 3. **Subnet Boundary Alignment Check**:
    A valid subnet base address must be an exact multiple of the block size ($2^H$):
    $$\text{SubnetIP}_{\text{int}} \pmod{2^H} == 0$$
-   If this condition is violated, the generator flags an **Unaligned Subnet Boundary Trap**.
+   If this condition is violated, the generator flags an **Unaligned Subnet Boundary Pitfall**.
 
 ---
 
@@ -218,13 +218,13 @@ Category 12 evaluates Cisco IOS CLI configuration errors:
 
 ---
 
-## 5. Detailed Specifications of the 12 CCNA Question Categories
+## 5. Detailed Specifications of the 12 Networking Question Categories
 
 ### Suite 1: Core Speed Drills
 
 #### Category 1: Network Address (Network ID)
 * **Objective**: Compute the base wire address from an arbitrary IP and prefix.
-* **Exam Traps**: Includes valid unicast host addresses ending in `.0` or `.255` on `/16` to `/23` networks (e.g. `172.16.1.0/22` is a valid host IP, with network address `172.16.0.0/22`).
+* **Boundary Pitfalls**: Includes valid unicast host addresses ending in `.0` or `.255` on `/16` to `/23` networks (e.g. `172.16.1.0/22` is a valid host IP, with network address `172.16.0.0/22`).
 
 #### Category 2: Directed Broadcast Address
 * **Objective**: Calculate the directed broadcast IP for a given subnet.
@@ -244,13 +244,13 @@ Category 12 evaluates Cisco IOS CLI configuration errors:
 
 ---
 
-### Suite 2: Real CCNA Exam Scenarios
+### Suite 2: Applied Networking Scenarios
 
 #### Category 7: Longest Prefix Match (LPM) Routing Table Lookup
 * **Objective**: Parse a simulated `show ip route` exhibit and determine which next-hop IP or egress interface forwards a packet addressed to destination $X$.
-* **Rules Tested**: $\text{LPM} \succ \text{Administrative Distance} \succ \text{Metric}$. Covers default route (`0.0.0.0/0`) fallback and non-matching traps.
+* **Rules Tested**: $\text{LPM} \succ \text{Administrative Distance} \succ \text{Metric}$. Covers default route (`0.0.0.0/0`) fallback and non-matching boundary pitfalls.
 
-#### Category 8: CCNA Simulation Lab (Nth Subnet & Interface IP)
+#### Category 8: Multi-Site Subnet Design Lab (Nth Subnet & Interface IP)
 * **Objective**: Given a major network allocation (e.g. `10.20.0.0/19`), subdivide into equal subnets and calculate the exact interface IP and mask for the $N$-th subnet or the first/last usable IP for a router interface.
 
 #### Category 9: VLSM Capacity, Growth Buffer & Subnet Alignment
@@ -267,9 +267,9 @@ Category 12 evaluates Cisco IOS CLI configuration errors:
 
 ---
 
-## 6. Exam Mental Math Engine: The "Magic Number" Method
+## 6. High-Speed Mental Math Engine: The "Magic Number" Method
 
-To prepare candidates for exam conditions, explanations eschew raw 32-bit binary dumps in favor of Cisco's **Magic Number (Block Size)** mental math framework:
+To prepare candidates for high-speed operational and exam conditions, explanations eschew raw 32-bit binary dumps in favor of Cisco's **Magic Number (Block Size)** mental math framework:
 
 ```
                            [ Given IP & Prefix /n ]
